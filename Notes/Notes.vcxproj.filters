@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ui">
+      <UniqueIdentifier>{b8fc73c4-b844-40d8-ad2f-b4854c6edb02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ref">
+      <UniqueIdentifier>{74aaf450-03cb-42a5-82f0-fbde78bd91ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="control">
+      <UniqueIdentifier>{6fba9fe0-0c76-4151-ad7d-412262673399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="app">
+      <UniqueIdentifier>{75aa9ffb-0359-4d37-80f4-d7c295aa7da9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="view">
+      <UniqueIdentifier>{4bd0cef8-18b3-472c-a0be-e5ef5cdea348}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="header">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="res">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="res\Notes.rc2">
+      <Filter>res</Filter>
+    </None>
+    <None Include="res\Notes.ico">
+      <Filter>res</Filter>
+    </None>
+    <None Include="CNoteViewDlg.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Notes.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\Hook.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiAngleCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiAnimate.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiBase.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiButton.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiClass.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiComboBox.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiCommon.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiCurveGraphCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiDlg.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiEdit.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiHotKeyCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiKeyboardCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiListCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiMulitSliderCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiNumberCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiPanelCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiProgressCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiScrollStringCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiSliderCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiSliderFixCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiSliderNumCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiStatic.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiStatusGraphCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiTabCtrl.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiTrayIcon.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ref\Cvt.h">
+      <Filter>ref</Filter>
+    </ClInclude>
+    <ClInclude Include="ref\HotKey.h">
+      <Filter>ref</Filter>
+    </ClInclude>
+    <ClInclude Include="ref\Ini.h">
+      <Filter>ref</Filter>
+    </ClInclude>
+    <ClInclude Include="ref\Log.h">
+      <Filter>ref</Filter>
+    </ClInclude>
+    <ClInclude Include="ref\Path.h">
+      <Filter>ref</Filter>
+    </ClInclude>
+    <ClInclude Include="ref\RawInput.h">
+      <Filter>ref</Filter>
+    </ClInclude>
+    <ClInclude Include="ref\Registry.h">
+      <Filter>ref</Filter>
+    </ClInclude>
+    <ClInclude Include="ref\Shell.h">
+      <Filter>ref</Filter>
+    </ClInclude>
+    <ClInclude Include="ref\Utility.h">
+      <Filter>ref</Filter>
+    </ClInclude>
+    <ClInclude Include="control\HotKeyEdit.h">
+      <Filter>control</Filter>
+    </ClInclude>
+    <ClInclude Include="app\Config.h">
+      <Filter>app</Filter>
+    </ClInclude>
+    <ClInclude Include="NoteDlg.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="NotesDlg.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="defintion.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="app\AppCtrl.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="app\Note.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="CNoteViewDlg.h">
+      <Filter>header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Notes.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiAngleCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiAnimate.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiBase.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiButton.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiComboBox.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiCurveGraphCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiDlg.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiEdit.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiHotKeyCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiKeyboardCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiListCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiMulitSliderCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiNumberCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiPanelCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiProgressCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiScrollStringCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiSliderCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiSliderFixCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiSliderNumCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiStatic.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiStatusGraphCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiTabCtrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiTrayIcon.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ref\Cvt.cpp">
+      <Filter>ref</Filter>
+    </ClCompile>
+    <ClCompile Include="ref\HotKey.cpp">
+      <Filter>ref</Filter>
+    </ClCompile>
+    <ClCompile Include="ref\Ini.cpp">
+      <Filter>ref</Filter>
+    </ClCompile>
+    <ClCompile Include="ref\Log.cpp">
+      <Filter>ref</Filter>
+    </ClCompile>
+    <ClCompile Include="ref\Path.cpp">
+      <Filter>ref</Filter>
+    </ClCompile>
+    <ClCompile Include="ref\RawInput.cpp">
+      <Filter>ref</Filter>
+    </ClCompile>
+    <ClCompile Include="ref\Registry.cpp">
+      <Filter>ref</Filter>
+    </ClCompile>
+    <ClCompile Include="ref\Shell.cpp">
+      <Filter>ref</Filter>
+    </ClCompile>
+    <ClCompile Include="ref\Utility.cpp">
+      <Filter>ref</Filter>
+    </ClCompile>
+    <ClCompile Include="control\HotKeyEdit.cpp">
+      <Filter>control</Filter>
+    </ClCompile>
+    <ClCompile Include="NotesDlg.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="NoteDlg.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="app\Config.cpp">
+      <Filter>app</Filter>
+    </ClCompile>
+    <ClCompile Include="app\AppCtrl.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="app\Note.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CNoteViewDlg.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Notes.rc">
+      <Filter>res</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6769A8F9-CF54-47BB-8262-FE3D739E79AB}</ProjectGuid>
+    <RootNamespace>Notes</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(MSBuildProjectDirectory);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(MSBuildProjectDirectory);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="CNoteViewDlg.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="ReadMe.txt" />
+    <None Include="res\Notes.ico" />
+    <None Include="res\Notes.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="app\AppCtrl.h" />
+    <ClInclude Include="app\Config.h" />
+    <ClInclude Include="app\Note.h" />
+    <ClInclude Include="CNoteViewDlg.h" />
+    <ClInclude Include="control\HotKeyEdit.h" />
+    <ClInclude Include="defintion.h" />
+    <ClInclude Include="NoteDlg.h" />
+    <ClInclude Include="Notes.h" />
+    <ClInclude Include="NotesDlg.h" />
+    <ClInclude Include="ref\Cvt.h" />
+    <ClInclude Include="ref\HotKey.h" />
+    <ClInclude Include="ref\Ini.h" />
+    <ClInclude Include="ref\Log.h" />
+    <ClInclude Include="ref\Path.h" />
+    <ClInclude Include="ref\RawInput.h" />
+    <ClInclude Include="ref\Registry.h" />
+    <ClInclude Include="ref\Shell.h" />
+    <ClInclude Include="ref\Utility.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="ui\Hook.h" />
+    <ClInclude Include="ui\UiAngleCtrl.h" />
+    <ClInclude Include="ui\UiAnimate.h" />
+    <ClInclude Include="ui\UiBase.h" />
+    <ClInclude Include="ui\UiButton.h" />
+    <ClInclude Include="ui\UiClass.h" />
+    <ClInclude Include="ui\UiComboBox.h" />
+    <ClInclude Include="ui\UiCommon.h" />
+    <ClInclude Include="ui\UiCurveGraphCtrl.h" />
+    <ClInclude Include="ui\UiDlg.h" />
+    <ClInclude Include="ui\UiEdit.h" />
+    <ClInclude Include="ui\UiHotKeyCtrl.h" />
+    <ClInclude Include="ui\UiKeyboardCtrl.h" />
+    <ClInclude Include="ui\UiListCtrl.h" />
+    <ClInclude Include="ui\UiMulitSliderCtrl.h" />
+    <ClInclude Include="ui\UiNumberCtrl.h" />
+    <ClInclude Include="ui\UiPanelCtrl.h" />
+    <ClInclude Include="ui\UiProgressCtrl.h" />
+    <ClInclude Include="ui\UiScrollStringCtrl.h" />
+    <ClInclude Include="ui\UiSliderCtrl.h" />
+    <ClInclude Include="ui\UiSliderFixCtrl.h" />
+    <ClInclude Include="ui\UiSliderNumCtrl.h" />
+    <ClInclude Include="ui\UiStatic.h" />
+    <ClInclude Include="ui\UiStatusGraphCtrl.h" />
+    <ClInclude Include="ui\UiTabCtrl.h" />
+    <ClInclude Include="ui\UiTrayIcon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="app\AppCtrl.cpp" />
+    <ClCompile Include="app\Config.cpp" />
+    <ClCompile Include="app\Note.cpp" />
+    <ClCompile Include="CNoteViewDlg.cpp" />
+    <ClCompile Include="control\HotKeyEdit.cpp" />
+    <ClCompile Include="NoteDlg.cpp" />
+    <ClCompile Include="Notes.cpp" />
+    <ClCompile Include="NotesDlg.cpp" />
+    <ClCompile Include="ref\Cvt.cpp" />
+    <ClCompile Include="ref\HotKey.cpp" />
+    <ClCompile Include="ref\Ini.cpp" />
+    <ClCompile Include="ref\Log.cpp" />
+    <ClCompile Include="ref\Path.cpp" />
+    <ClCompile Include="ref\RawInput.cpp" />
+    <ClCompile Include="ref\Registry.cpp" />
+    <ClCompile Include="ref\Shell.cpp" />
+    <ClCompile Include="ref\Utility.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ui\UiAngleCtrl.cpp" />
+    <ClCompile Include="ui\UiAnimate.cpp" />
+    <ClCompile Include="ui\UiBase.cpp" />
+    <ClCompile Include="ui\UiButton.cpp" />
+    <ClCompile Include="ui\UiComboBox.cpp" />
+    <ClCompile Include="ui\UiCurveGraphCtrl.cpp" />
+    <ClCompile Include="ui\UiDlg.cpp" />
+    <ClCompile Include="ui\UiEdit.cpp" />
+    <ClCompile Include="ui\UiHotKeyCtrl.cpp" />
+    <ClCompile Include="ui\UiKeyboardCtrl.cpp" />
+    <ClCompile Include="ui\UiListCtrl.cpp" />
+    <ClCompile Include="ui\UiMulitSliderCtrl.cpp" />
+    <ClCompile Include="ui\UiNumberCtrl.cpp" />
+    <ClCompile Include="ui\UiPanelCtrl.cpp" />
+    <ClCompile Include="ui\UiProgressCtrl.cpp" />
+    <ClCompile Include="ui\UiScrollStringCtrl.cpp" />
+    <ClCompile Include="ui\UiSliderCtrl.cpp" />
+    <ClCompile Include="ui\UiSliderFixCtrl.cpp" />
+    <ClCompile Include="ui\UiSliderNumCtrl.cpp" />
+    <ClCompile Include="ui\UiStatic.cpp" />
+    <ClCompile Include="ui\UiStatusGraphCtrl.cpp" />
+    <ClCompile Include="ui\UiTabCtrl.cpp" />
+    <ClCompile Include="ui\UiTrayIcon.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Notes.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="Notes.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
