@@ -113,7 +113,14 @@ HRESULT CNoteDlg::OnCreateCoreWebView2ControllerCompleted(HRESULT result, ICoreW
 	::GetClientRect(GetSafeHwnd(), &bounds);
 	m_controller->put_Bounds(bounds);
 
-	m_webView->Navigate(L"http://127.0.0.1:5500/");
+#ifdef _DEBUG_HTTP
+	CString sUrl = _T("http://127.0.0.1:5173");
+#else
+	CString sUrl = CString(_T("file:///")) + Path::GetCurDirectory(_T("views/index.html"));
+#endif // _DEBUG_HTTP
+	sUrl.Replace(_T("\\"), _T("/"));
+	m_webView->Navigate(sUrl.GetBuffer());
+	sUrl.ReleaseBuffer();
 
 	EventRegistrationToken token;
 	m_webView->add_NavigationStarting(Microsoft::WRL::Callback<ICoreWebView2NavigationStartingEventHandler>(
