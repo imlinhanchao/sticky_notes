@@ -6,12 +6,13 @@
 #include "Notes.h"
 #include "NotesDlg.h"
 #include "afxdialogex.h"
+#include <ole2.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
-
+CAppCtrl CNotesDlg::m_ctrl;
 // CAboutDlg dialog used for App About
 
 class CAboutDlg : public CDialogEx
@@ -74,7 +75,7 @@ BOOL CNotesDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// Add "About..." menu item to system menu.
+	HRESULT hresult = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
 	// IDM_ABOUTBOX must be in the system command range.
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
@@ -155,6 +156,10 @@ HCURSOR CNotesDlg::OnQueryDragIcon()
 
 void CNotesDlg::OnBnClickedBtnNew()
 {
+	CNoteDlg* pDlg = new CNoteDlg();
+	//pDlg->m_Note.Create(_T("Test"));
+	pDlg->Create(IDD_DLG_NOTE, NULL);
+
 }
 
 void CNotesDlg::Init()

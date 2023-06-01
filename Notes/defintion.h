@@ -25,7 +25,7 @@ typedef struct NoteGroup
 	NoteGroup()
 	{
 		bgColor = RGB(0, 0, 1);
-		rect = CRect(100, 100, 200, 300);
+		rect = CRect(100, 100, 400, 400);
 		// 使用时间戳作为默认名称
 		sName = CTime::GetCurrentTime().Format(_T("%Y%m%d%H%M%S"));
 		nOpacity = 50;

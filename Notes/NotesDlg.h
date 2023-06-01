@@ -37,4 +37,5 @@ protected:
 
 public:
 	CHotKeyEdit m_ActiveHKey;
+	static CAppCtrl m_ctrl;
 };

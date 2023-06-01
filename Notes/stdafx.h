@@ -55,13 +55,26 @@
 #endif
 #endif
 
-#include <afxdhtml.h>
+#include <wrl.h>
+#include <wil/com.h>
+
+// include WebView2 
+#include "WebView2.h"
+
+// include Json
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+
+using namespace rapidjson;
+
 #include "resource.h"
 
 #include <vector>
 #include <algorithm>
 #include <map>
 using namespace std;
+
 
 #include "ref/Path.h"
 #include "ref/Ini.h"

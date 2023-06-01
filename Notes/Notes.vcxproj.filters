@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ui">
-      <UniqueIdentifier>{b8fc73c4-b844-40d8-ad2f-b4854c6edb02}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ref">
       <UniqueIdentifier>{74aaf450-03cb-42a5-82f0-fbde78bd91ae}</UniqueIdentifier>
     </Filter>
@@ -37,7 +34,7 @@
     <None Include="res\Notes.ico">
       <Filter>res</Filter>
     </None>
-    <None Include="CNoteViewDlg.htm" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Notes.h">
@@ -51,84 +48,6 @@
     </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>header</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\Hook.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiAngleCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiAnimate.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiBase.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiButton.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiClass.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiComboBox.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiCommon.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiCurveGraphCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiDlg.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiEdit.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiHotKeyCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiKeyboardCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiListCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiMulitSliderCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiNumberCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiPanelCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiProgressCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiScrollStringCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiSliderCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiSliderFixCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiSliderNumCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiStatic.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiStatusGraphCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiTabCtrl.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UiTrayIcon.h">
-      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ref\Cvt.h">
       <Filter>ref</Filter>
@@ -178,9 +97,6 @@
     <ClInclude Include="app\Note.h">
       <Filter>header</Filter>
     </ClInclude>
-    <ClInclude Include="CNoteViewDlg.h">
-      <Filter>header</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Notes.cpp">
@@ -188,75 +104,6 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiAngleCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiAnimate.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiBase.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiButton.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiComboBox.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiCurveGraphCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiDlg.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiEdit.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiHotKeyCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiKeyboardCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiListCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiMulitSliderCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiNumberCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiPanelCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiProgressCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiScrollStringCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiSliderCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiSliderFixCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiSliderNumCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiStatic.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiStatusGraphCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiTabCtrl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UiTrayIcon.cpp">
-      <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="ref\Cvt.cpp">
       <Filter>ref</Filter>
@@ -303,13 +150,13 @@
     <ClCompile Include="app\Note.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="CNoteViewDlg.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Notes.rc">
       <Filter>res</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
   </ItemGroup>
 </Project>

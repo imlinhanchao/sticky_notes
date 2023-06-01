@@ -99,9 +99,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="CNoteViewDlg.htm">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
+    <None Include="packages.config" />
     <None Include="ReadMe.txt" />
     <None Include="res\Notes.ico" />
     <None Include="res\Notes.rc2" />
@@ -110,7 +108,6 @@
     <ClInclude Include="app\AppCtrl.h" />
     <ClInclude Include="app\Config.h" />
     <ClInclude Include="app\Note.h" />
-    <ClInclude Include="CNoteViewDlg.h" />
     <ClInclude Include="control\HotKeyEdit.h" />
     <ClInclude Include="defintion.h" />
     <ClInclude Include="NoteDlg.h" />
@@ -128,38 +125,11 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="ui\Hook.h" />
-    <ClInclude Include="ui\UiAngleCtrl.h" />
-    <ClInclude Include="ui\UiAnimate.h" />
-    <ClInclude Include="ui\UiBase.h" />
-    <ClInclude Include="ui\UiButton.h" />
-    <ClInclude Include="ui\UiClass.h" />
-    <ClInclude Include="ui\UiComboBox.h" />
-    <ClInclude Include="ui\UiCommon.h" />
-    <ClInclude Include="ui\UiCurveGraphCtrl.h" />
-    <ClInclude Include="ui\UiDlg.h" />
-    <ClInclude Include="ui\UiEdit.h" />
-    <ClInclude Include="ui\UiHotKeyCtrl.h" />
-    <ClInclude Include="ui\UiKeyboardCtrl.h" />
-    <ClInclude Include="ui\UiListCtrl.h" />
-    <ClInclude Include="ui\UiMulitSliderCtrl.h" />
-    <ClInclude Include="ui\UiNumberCtrl.h" />
-    <ClInclude Include="ui\UiPanelCtrl.h" />
-    <ClInclude Include="ui\UiProgressCtrl.h" />
-    <ClInclude Include="ui\UiScrollStringCtrl.h" />
-    <ClInclude Include="ui\UiSliderCtrl.h" />
-    <ClInclude Include="ui\UiSliderFixCtrl.h" />
-    <ClInclude Include="ui\UiSliderNumCtrl.h" />
-    <ClInclude Include="ui\UiStatic.h" />
-    <ClInclude Include="ui\UiStatusGraphCtrl.h" />
-    <ClInclude Include="ui\UiTabCtrl.h" />
-    <ClInclude Include="ui\UiTrayIcon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app\AppCtrl.cpp" />
     <ClCompile Include="app\Config.cpp" />
     <ClCompile Include="app\Note.cpp" />
-    <ClCompile Include="CNoteViewDlg.cpp" />
     <ClCompile Include="control\HotKeyEdit.cpp" />
     <ClCompile Include="NoteDlg.cpp" />
     <ClCompile Include="Notes.cpp" />
@@ -177,39 +147,27 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ui\UiAngleCtrl.cpp" />
-    <ClCompile Include="ui\UiAnimate.cpp" />
-    <ClCompile Include="ui\UiBase.cpp" />
-    <ClCompile Include="ui\UiButton.cpp" />
-    <ClCompile Include="ui\UiComboBox.cpp" />
-    <ClCompile Include="ui\UiCurveGraphCtrl.cpp" />
-    <ClCompile Include="ui\UiDlg.cpp" />
-    <ClCompile Include="ui\UiEdit.cpp" />
-    <ClCompile Include="ui\UiHotKeyCtrl.cpp" />
-    <ClCompile Include="ui\UiKeyboardCtrl.cpp" />
-    <ClCompile Include="ui\UiListCtrl.cpp" />
-    <ClCompile Include="ui\UiMulitSliderCtrl.cpp" />
-    <ClCompile Include="ui\UiNumberCtrl.cpp" />
-    <ClCompile Include="ui\UiPanelCtrl.cpp" />
-    <ClCompile Include="ui\UiProgressCtrl.cpp" />
-    <ClCompile Include="ui\UiScrollStringCtrl.cpp" />
-    <ClCompile Include="ui\UiSliderCtrl.cpp" />
-    <ClCompile Include="ui\UiSliderFixCtrl.cpp" />
-    <ClCompile Include="ui\UiSliderNumCtrl.cpp" />
-    <ClCompile Include="ui\UiStatic.cpp" />
-    <ClCompile Include="ui\UiStatusGraphCtrl.cpp" />
-    <ClCompile Include="ui\UiTabCtrl.cpp" />
-    <ClCompile Include="ui\UiTrayIcon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Notes.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\Microsoft.Web.WebView2.1.0.1774.30\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.1774.30\build\native\Microsoft.Web.WebView2.targets')" />
+    <Import Project="..\packages\Microsoft.Windows.ImplementationLibrary.1.0.230411.1\build\native\Microsoft.Windows.ImplementationLibrary.targets" Condition="Exists('..\packages\Microsoft.Windows.ImplementationLibrary.1.0.230411.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" />
+    <Import Project="..\packages\rapidjson.1.0.2\build\native\rapidjson.targets" Condition="Exists('..\packages\rapidjson.1.0.2\build\native\rapidjson.targets')" />
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
       <UserProperties RESOURCE_FILE="Notes.rc" />
     </VisualStudio>
   </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.1774.30\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.1774.30\build\native\Microsoft.Web.WebView2.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.ImplementationLibrary.1.0.230411.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.ImplementationLibrary.1.0.230411.1\build\native\Microsoft.Windows.ImplementationLibrary.targets'))" />
+    <Error Condition="!Exists('..\packages\rapidjson.1.0.2\build\native\rapidjson.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\rapidjson.1.0.2\build\native\rapidjson.targets'))" />
+  </Target>
 </Project>
