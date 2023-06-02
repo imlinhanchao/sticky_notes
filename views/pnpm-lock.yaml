@@ -9,6 +9,7 @@ specifiers:
   '@fortawesome/vue-fontawesome': ^3.0.3
   '@rushstack/eslint-patch': ^1.2.0
   '@tsconfig/node18': ^2.0.1
+  '@types/marked': ^5.0.0
   '@types/node': ^18.16.8
   '@vitejs/plugin-vue': ^4.2.3
   '@vue/eslint-config-prettier': ^7.1.0
@@ -18,6 +19,7 @@ specifiers:
   element-plus: ^2.3.5
   eslint: ^8.39.0
   eslint-plugin-vue: ^9.11.0
+  marked: ^5.0.4
   npm-run-all: ^4.1.5
   pinia: ^2.0.36
   postcss: ^8.4.24
@@ -38,7 +40,9 @@ dependencies:
   '@fortawesome/free-regular-svg-icons': 6.4.0
   '@fortawesome/free-solid-svg-icons': 6.4.0
   '@fortawesome/vue-fontawesome': 3.0.3_4mhwavzfveoxqj3h5dtyilc35q
+  '@types/marked': 5.0.0
   element-plus: 2.3.5_vue@3.3.4
+  marked: 5.0.4
   pinia: 2.1.3_typescript@5.0.4+vue@3.3.4
   sass: 1.62.1
   scss-loader: 0.0.1
@@ -498,6 +502,10 @@ packages:
 
   /@types/lodash/4.14.195:
     resolution: {integrity: sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==}
+    dev: false
+
+  /@types/marked/5.0.0:
+    resolution: {integrity: sha512-YcZe50jhltsCq7rc9MNZC/4QB/OnA2Pd6hrOSTOFajtabN+38slqgDDCeE/0F83SjkKBQcsZUj7VLWR0H5cKRA==}
     dev: false
 
   /@types/node/18.16.16:
@@ -1956,6 +1964,12 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
+
+  /marked/5.0.4:
+    resolution: {integrity: sha512-r0W8/DK56fAkV0qfUCO9cEt/VlFWUzoJOqEigvijmsVkTuPOHckh7ZutNJepRO1AxHhK96/9txonHg4bWd/aLA==}
+    engines: {node: '>= 18'}
+    hasBin: true
+    dev: false
 
   /memoize-one/6.0.0:
     resolution: {integrity: sha512-rkpe71W0N0c0Xz6QD0eJETuWAJGnJ9afsl1srmwPrI+yBCkge5EycXXbYRyvL29zZVUWQCY7InPRCv3GDXuZNw==}
