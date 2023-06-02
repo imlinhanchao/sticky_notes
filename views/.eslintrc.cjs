@@ -11,5 +11,13 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest'
-  }
+  },
+  overrides: [
+    {
+      files: ['*.config.js'],
+      env: {
+        node: true,
+      },
+    },
+  ],
 }
