@@ -20,6 +20,7 @@ public:
 	void UpdateOpacityAble(bool bOpacityAble);
 	void UpdateTopMost(bool bTopMost);
 	void UpdateBgColor(COLORREF clrBg);
+	void Hide();
 
 private:
 	NoteGroup m_noteGroup;

@@ -1,11 +1,4 @@
 #pragma once
-#include <winrt/Windows.UI.ViewManagement.h>
-using namespace Windows::UI::ViewManagement;
-
-inline bool IsColorLight(Windows::UI::Color& clr)
-{
-	return (((5 * clr.G) + (2 * clr.R) + clr.B) > (8 * 128));
-}
 
 typedef struct _NoteItem
 {
@@ -33,9 +26,7 @@ typedef struct NoteGroup
 
 	NoteGroup()
 	{
-		auto settings = UISettings();
-		auto foreground = settings.GetColorValue(UIColorType::Foreground);
-		bgColor = IsColorLight(foreground) ? RGB(11, 15, 20) : RGB(255,255,255);
+		bgColor = RGB(11, 15, 20);
 		rect = CRect(100, 100, 530, 530);
 		// 使用时间戳作为默认名称
 		sName = CTime::GetCurrentTime().Format(_T("%Y%m%d%H%M%S"));

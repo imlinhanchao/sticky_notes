@@ -8,7 +8,7 @@ CNote::CNote()
 CNote::CNote(CString sName)
 {
 	if(!CConfig::GetNoteGroup(sName, m_noteGroup))
-		CConfig::SetNoteGroup(sName, m_noteGroup);
+		CConfig::SetNoteGroup(m_noteGroup);
 }
 
 CNote::~CNote(void)
@@ -18,7 +18,7 @@ CNote::~CNote(void)
 bool CNote::Create(CString sName)
 {
 	if (!CConfig::GetNoteGroup(sName, m_noteGroup)) {
-		CConfig::SetNoteGroup(sName, m_noteGroup);
+		CConfig::SetNoteGroup(m_noteGroup);
 		return false;
 	}
 	return true;
@@ -29,7 +29,7 @@ bool CNote::Rename(CString sName)
 	if (!CConfig::RenameNoteGroup(m_noteGroup.sName, sName)) return false;
 
 	m_noteGroup.sName = sName;
-	CConfig::SetNoteGroup(sName, m_noteGroup);
+	CConfig::SetNoteGroup(m_noteGroup);
 
 	return true;
 }
@@ -47,7 +47,7 @@ NoteGroup& CNote::GetNoteGroup()
 void CNote::SetNoteGroup(NoteGroup group)
 {
 	m_noteGroup = group;
-	CConfig::SetNoteGroup(m_noteGroup.sName, m_noteGroup);
+	CConfig::SetNoteGroup(m_noteGroup);
 }
 
 void CNote::SetNoteItem(NoteItem item, int nIndex, bool bNew)
@@ -106,4 +106,17 @@ void CNote::UpdateBgColor(COLORREF clrBg)
 	Ini ini(CConfig::NotesDir() + m_noteGroup.sName + _T(".ini"));
 
 	ini.Write(_T("Group"), _T("BgColor"), Cvt::ToString(clrBg));
+}
+
+void CNote::Hide()
+{
+	m_noteGroup.bVisible = true;
+	Ini ini(CConfig::NotesDir() + m_noteGroup.sName + _T(".ini"));
+
+	ini.Write(_T("Group"), _T("Visible"), true);
+}
+
+void CNote::Clear()
+{
+	DeleteFile(CConfig::NotesDir() + m_noteGroup.sName + _T(".ini"));
 }

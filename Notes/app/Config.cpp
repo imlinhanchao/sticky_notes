@@ -58,9 +58,9 @@ bool CConfig::GetNoteGroup(CString sName, NoteGroup& group)
 	return true;
 }
 
-void CConfig::SetNoteGroup(CString sName, NoteGroup group)
+void CConfig::SetNoteGroup( NoteGroup group)
 {
-	CString sConfigFile = NotesDir() + sName + _T(".ini");
+	CString sConfigFile = NotesDir() + group.sName + _T(".ini");
 
 	Ini ini(sConfigFile);
 	ini.Write(_T("Group"), _T("Count"), group.vNotes.size());

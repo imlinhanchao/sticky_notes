@@ -1,25 +1,24 @@
 <script setup lang="ts" name="Home">
 import { computed, onMounted, ref } from 'vue'
-import NoteItem, { Note } from './NoteItem.vue';
-import { listen, send } from '@/utils/message';
+import NoteItem, { Note } from './NoteItem.vue'
+import { listen, send } from '@/utils/message'
 
 onMounted(() => {
   listen((event, data) => {
-    switch(event) {
+    switch (event) {
       case 'data':
-        dataList.value = data;
-        break;
+        dataList.value = data
+        break
     }
   })
-  send('listen');
+  send('listen')
 })
 
-const dataList = ref<Note[]>([
-])
+const dataList = ref<Note[]>([])
 
 // 将 finish 排在后面
 const sortData = computed(() => {
-  const sortd = [...dataList.value];
+  const sortd = [...dataList.value]
   return sortd.sort((a, b) => {
     if (a.finish && !b.finish) {
       return 1
@@ -28,57 +27,78 @@ const sortData = computed(() => {
       return -1
     }
     return 0
-  });
-});
+  })
+})
 
-const content = ref('');
+const content = ref('')
 function add() {
-  if (!content.value) return;
-  const data = new Note(content.value);
-  dataList.value.push(data);
-  content.value = '';
-  send('add', data);
+  if (!content.value) return
+  const data = new Note(content.value)
+  dataList.value.push(data)
+  content.value = ''
+  send('add', data)
+}
+
+function remove(item: Note) {
+  const index = dataList.value.findIndex((a) => a.id == item.id)
+  if (index > -1) {
+    dataList.value.splice(index, 1)
+    send('remove', item)
+  }
+}
+
+function hide() {
+  send('hide')
+}
+
+function clear() {
+  send('clear')
 }
 </script>
 
 <template>
-  <el-main>
+  <el-main class="h-full">
     <ul class="my-2">
-      <NoteItem 
-        v-for="(d, i) in sortData" 
-        :key="i" 
+      <NoteItem
+        v-for="(d, i) in sortData"
+        :key="i"
         :model-value="d"
-        @update:model-value="d => dataList[
-          dataList.findIndex(a => d.id == a.id)
-        ] = d"
+        @update:model-value="(d) => (dataList[dataList.findIndex((a) => d.id == a.id)] = d)"
+        @remove="remove(d)"
       />
-      <li 
-        class="m-2 rounded border-2 cursor-pointer relative border-current"
-      >
-        <el-input 
-          type="textarea" 
+      <li class="m-2 rounded border-2 cursor-pointer relative border-current">
+        <el-input
+          type="textarea"
           :autosize="{
             minRows: 1
-          }" 
-          class="w-full" 
-          style="
-          --el-input-border-color: transparent;
-          --el-input-hover-border-color: transparent;
-          --el-input-focus-border-color: transparent;
-          "
+          }"
+          class="w-full"
           @keydown.enter.ctrl.exact="add"
           v-model="content"
         />
-        <el-button link class="absolute top-1 left-1 text-lg">
+        <el-button @click="add" link class="absolute top-1 left-1 text-lg">
           <font-awesome-icon :icon="['fas', 'plus']" />
         </el-button>
       </li>
     </ul>
   </el-main>
+  <el-footer class="flex mx-2 items-center">
+    <el-button class="w-full" type="primary" @click="hide">
+      <font-awesome-icon :icon="['fas', 'eye-slash']" />&nbsp;隐藏显示
+    </el-button>
+    <el-popconfirm title="删除后将无法找回，是否确认完成删除?" @confirm="clear">
+      <template #reference>
+        <el-button class="w-full" type="danger">
+          <font-awesome-icon :icon="['fas', 'trash']" />&nbsp;完成删除
+        </el-button>
+      </template>
+    </el-popconfirm>
+  </el-footer>
 </template>
 
 <style lang="scss" scoped>
-.el-main {
+.el-main,
+.el-footer {
   padding: 0;
 }
 .el-textarea {

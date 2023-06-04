@@ -4,9 +4,9 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import ElementPlus from "element-plus";
+import "./themes/style.scss";
 import "element-plus/dist/index.css";
 import "element-plus/theme-chalk/dark/css-vars.css";
-import "./themes/style.scss";
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

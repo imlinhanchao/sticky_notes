@@ -386,6 +386,26 @@ HRESULT CNoteDlg::OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebM
 			}
 		}
 	}
+	else if (sEvent == _T("remove")) {
+		vector<NoteItem> vNotes = m_Note.GetNoteGroup().vNotes;
+		NoteItem item;
+		item.uId = data["id"].GetUint64();
+		for (int i = 0; i < vNotes.size(); i++) {
+			if (vNotes[i].uId == item.uId) {
+				m_Note.GetNoteGroup().vNotes.erase(m_Note.GetNoteGroup().vNotes.begin() + i);
+				CConfig::SetNoteGroup(m_Note.GetNoteGroup());
+				break;
+			}
+		}
+	}
+	else if (sEvent == _T("hide")) {
+		m_Note.Hide();
+		CDialogEx::OnCancel();
+	}
+	else if (sEvent == _T("clear")) {
+		m_Note.Clear();
+		CDialogEx::OnCancel();
+	}
 	else if (sEvent == _T("listen")) {
 		SendNoteItems();
 		SendNoteSetting();
