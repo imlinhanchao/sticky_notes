@@ -16,10 +16,14 @@ void CAppCtrl::Init()
 
 	for (int i = 0; i < vNoteGroup.size(); i++)
 	{
-		CNoteDlg* pDlg = new CNoteDlg();
-		pDlg->m_Note.Create(vNoteGroup[i]);
-		pDlg->Create(IDD_DLG_NOTE, NULL);
-		pDlg->ShowWindow(SW_SHOW);
-		m_NoteListDlg.push_back(pDlg);
+		New(vNoteGroup[i]);
 	}
+}
+
+void CAppCtrl::New(CString sName)
+{
+	CNoteDlg* pDlg = new CNoteDlg();
+	pDlg->m_Note.Create(sName);
+	pDlg->Create(IDD_DLG_NOTE, NULL);
+	m_NoteListDlg.push_back(pDlg);
 }

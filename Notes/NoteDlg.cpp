@@ -15,7 +15,8 @@ IMPLEMENT_DYNAMIC(CNoteDlg, CDialogEx)
 CNoteDlg::CNoteDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CNoteDlg::IDD, pParent)
 {
-
+	m_bMoveWindow = false;
+	m_brush.CreateStockObject(NULL_BRUSH);
 }
 
 CNoteDlg::~CNoteDlg()
@@ -30,6 +31,13 @@ void CNoteDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CNoteDlg, CDialogEx)
 	ON_WM_SIZE()
+	ON_WM_NCHITTEST()
+	ON_WM_NCMOUSEMOVE()
+	ON_WM_MOUSEMOVE()
+	ON_WM_ERASEBKGND()
+	ON_WM_PAINT()
+	ON_WM_INPUT()
+	ON_WM_MOVE()
 END_MESSAGE_MAP()
 
 
@@ -40,7 +48,6 @@ BOOL CNoteDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	SetWindowLongPtr(this->GetSafeHwnd(), GWLP_USERDATA, (LONG_PTR)this);
 	Init();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -49,10 +56,127 @@ BOOL CNoteDlg::OnInitDialog()
 
 void CNoteDlg::OnSize(UINT nType, int cx, int cy)
 {
-	RECT availableBounds = { 0 };
-	GetClientRect(&availableBounds);
+	if(!IsWindowVisible()) return;
+	RECT rcbounds = { 0 };
+	GetClientRect(&rcbounds);
+
 	if (m_controller != nullptr)
-		m_controller->put_Bounds(availableBounds);
+	{
+		CRect rc(rcbounds);
+		ClientToScreen(&rc);
+		m_Note.UpdateRect(rc);
+		rcbounds.top += 3;
+		rcbounds.left += 3;
+		rcbounds.bottom -= 3;
+		rcbounds.right -= 3;
+		m_controller->put_Bounds(rcbounds);
+	}
+
+}
+
+
+void CNoteDlg::OnMove(int x, int y)
+{
+	CDialogEx::OnMove(x, y);
+
+	if (!IsWindowVisible()) return;
+
+	RECT rcbounds = { 0 };
+	GetClientRect(&rcbounds);
+
+	CRect rc(rcbounds);
+	ClientToScreen(&rc);
+	m_Note.UpdateRect(rc);
+
+}
+
+
+LRESULT CNoteDlg::OnNcHitTest(CPoint point)
+{
+	CLogApp::Debug(_T("OnNcHitTest: (%d,%d)"), point.x, point.y);
+	CRect rect;
+	GetWindowRect(&rect);
+	if (point.x >= rect.right - 3 && point.y < rect.bottom - 3)
+		return HTRIGHT;
+	else if (point.y >= rect.bottom - 3 && point.x < rect.right - 3)
+		return HTBOTTOM;
+	else if (point.x >= rect.right - 3 && point.y >= rect.bottom - 3)
+		return HTBOTTOMRIGHT;
+
+	return CDialogEx::OnNcHitTest(point);
+}
+
+
+void CNoteDlg::OnNcMouseMove(UINT nHitTest, CPoint point)
+{
+	CLogApp::Debug(_T("OnNcMouseMove: %d, (%d,%d)"), nHitTest, point.x, point.y);
+
+	if (nHitTest == HTCAPTION || nHitTest == HTSYSMENU || nHitTest == HTMENU || nHitTest == HTCLIENT)
+	{
+		SetCursor(LoadCursor(NULL, MAKEINTRESOURCE(IDC_ARROW))); //IDC_ARROW 标准的箭头 
+		return;
+	}
+	else if (nHitTest == HTTOPRIGHT || nHitTest == HTBOTTOMLEFT)
+	{
+		SetCursor(LoadCursor(NULL, MAKEINTRESOURCE(IDC_SIZENESW))); //IDC_SIZENESW 双箭头指向东北和西南
+		return;
+	} else if (nHitTest == HTBOTTOM)
+	{
+		SetCursor(LoadCursor(NULL, MAKEINTRESOURCE(IDC_SIZENS)));//IDC_SIZENS 双箭头指向南北
+		return;
+	}
+	else if (nHitTest == HTRIGHT)
+	{
+		SetCursor(LoadCursor(NULL, MAKEINTRESOURCE(IDC_SIZEWE)));//IDC_SIZEWE 双箭头指向东西
+		return;
+	}
+
+	CDialogEx::OnNcMouseMove(nHitTest, point);
+}
+
+
+BOOL CNoteDlg::OnEraseBkgnd(CDC* pDC)
+{
+	return TRUE;
+}
+
+
+void CNoteDlg::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+
+	CRect rect;
+	GetClientRect(&rect);
+
+	dc.FillRect(&rect, &m_brush);
+}
+
+
+void CNoteDlg::OnRawInput(UINT nInputcode, HRAWINPUT hRawInput)
+{
+	UINT dwSize = 0;
+	BYTE* lpb = NULL;
+	RAWINPUT* raw = NULL;
+
+	GetRawInputData(hRawInput, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
+	if (dwSize == 0) goto DONE;
+
+	lpb = new BYTE[dwSize];
+	if (GetRawInputData(hRawInput, RID_INPUT, lpb, &dwSize, sizeof(RAWINPUTHEADER)) != dwSize)
+		goto DONE;
+
+	raw = (RAWINPUT*)lpb;
+
+	if (raw->header.dwType == RIM_TYPEMOUSE) {
+		RAWMOUSE& rawMouse = raw->data.mouse;
+		CPoint pt; GetCursorPos(&pt);
+		OnMouseMoving(pt);
+	}
+
+DONE:
+	if (lpb != NULL) delete lpb;
+
+	CDialogEx::OnRawInput(nInputcode, hRawInput);
 }
 
 void CNoteDlg::Init()
@@ -60,7 +184,7 @@ void CNoteDlg::Init()
 	//SetMouseThought();
 	SetWindownAlpha(0);
 	CRect rc = m_Note.GetNoteGroup().rect;
-	SetWindowPos(&wndTopMost, rc.left, rc.top, rc.Width(), rc.Height(), SWP_SHOWWINDOW);
+	SetWindowPos(m_Note.GetNoteGroup(). bTopMost ? &wndTopMost : &wndNoTopMost, rc.left, rc.top, rc.Width(), rc.Height(), SWP_SHOWWINDOW);
 
 	InitWebView();
 }
@@ -68,16 +192,55 @@ void CNoteDlg::Init()
 void CNoteDlg::SetWindownAlpha( float fAlpha )
 {
 	ModifyStyleEx(0, WS_EX_LAYERED); 
-	SetLayeredWindowAttributes(0, 255 * fAlpha, LWA_ALPHA);
+	SetLayeredWindowAttributes(0, 255 * fAlpha / 100, LWA_ALPHA);
 }
 
-void CNoteDlg::SetMouseThought(bool bThought)
+void CNoteDlg::SetMouseThrough(bool bThought)
 {
 	DWORD dwNewLong = GetWindowLong(m_hWnd, GWL_EXSTYLE); 
 	if (bThought) dwNewLong |= WS_EX_TRANSPARENT | WS_EX_LAYERED;
 	else dwNewLong &= ~(WS_EX_TRANSPARENT | WS_EX_LAYERED);
 	SetWindowLong(m_hWnd, GWL_EXSTYLE, dwNewLong);
 }
+
+
+void CNoteDlg::SendNoteItems()
+{
+	USES_CONVERSION;
+	Document data;
+	data.SetArray();
+	for (int i = 0; i < m_Note.GetNoteGroup().vNotes.size(); i++) {
+		Value item(kObjectType);
+		rapidjson::Value id, content, finish;
+		id.SetUint64(m_Note.GetNoteGroup().vNotes[i].uId);
+		content.SetString(W2A(m_Note.GetNoteGroup().vNotes[i].sContent.GetBuffer()), data.GetAllocator());
+		finish.SetBool(m_Note.GetNoteGroup().vNotes[i].bFinished);
+		m_Note.GetNoteGroup().vNotes[i].sContent.ReleaseBuffer();
+		item.AddMember("id", id, data.GetAllocator());
+		item.AddMember("content", content, data.GetAllocator());
+		item.AddMember("finish", finish, data.GetAllocator());
+		data.PushBack(item, data.GetAllocator());
+	}
+	SendMessageToWeb(_T("data"), data);
+}
+
+void CNoteDlg::SendNoteSetting()
+{
+	USES_CONVERSION;
+	Document data;
+	data.SetObject();
+	Value bgColor, opacity, topmost, opacityable;
+	bgColor.SetString(T2A(m_Note.GetNoteGroup().toHex()), data.GetAllocator());
+	opacity.SetInt(m_Note.GetNoteGroup().nOpacity);
+	topmost.SetBool(m_Note.GetNoteGroup().bTopMost);
+	opacityable.SetBool(m_Note.GetNoteGroup().bOpacity);
+	data.AddMember("bgcolor", bgColor, data.GetAllocator());
+	data.AddMember("opacity", opacity, data.GetAllocator());
+	data.AddMember("opacityable", opacityable, data.GetAllocator());
+	data.AddMember("topmost", topmost, data.GetAllocator());
+	SendMessageToWeb(_T("setting"), data);
+}
+
 
 void CNoteDlg::InitWebView()
 {
@@ -111,6 +274,10 @@ HRESULT CNoteDlg::OnCreateCoreWebView2ControllerCompleted(HRESULT result, ICoreW
 
 	RECT bounds;
 	::GetClientRect(GetSafeHwnd(), &bounds);
+	bounds.top += 3;
+	bounds.left+= 3;
+	bounds.bottom -= 3;
+	bounds.right -= 3;
 	m_controller->put_Bounds(bounds);
 
 #ifdef _DEBUG_HTTP
@@ -124,7 +291,7 @@ HRESULT CNoteDlg::OnCreateCoreWebView2ControllerCompleted(HRESULT result, ICoreW
 
 	EventRegistrationToken token;
 	m_webView->add_NavigationStarting(Microsoft::WRL::Callback<ICoreWebView2NavigationStartingEventHandler>(
-		[](ICoreWebView2* webview, ICoreWebView2NavigationStartingEventArgs* args) -> HRESULT {
+		[this](ICoreWebView2* webview, ICoreWebView2NavigationStartingEventArgs* args) -> HRESULT {
 			return S_OK;
 		}).Get(), &token);
 
@@ -149,41 +316,79 @@ HRESULT CNoteDlg::OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebM
 	USES_CONVERSION;
 	Document d;
 	d.Parse(W2A(message.get()));
-	bool isObject = d.IsObject();
-	bool isString = d.IsString();
-	bool isNumber = d.IsNumber();
-	bool isBool = d.IsBool();
-	bool isArray = d.IsArray();
-	bool isNull = d.IsNull();
-	bool isInt = d.IsInt();
-	bool isUint = d.IsUint();
-	bool isInt64 = d.IsInt64();
-	bool isUint64 = d.IsUint64();
-	bool isDouble = d.IsDouble();
+	/**
+	* data format
+	* { event: string, data: any }
+	*/
+	if (!d.HasMember("event")) return E_NOTIMPL;
+	if (!d.HasMember("data")) return E_NOTIMPL;
+	const rapidjson::Value& data = d["data"];
 
 
-	for (auto it = d.MemberBegin(); it != d.MemberEnd(); it++)
-	{
-		CLogApp::Debug(A2W(it->name.GetString()));
-		if (it->value.IsNumber())
-			CLogApp::Debug(_T("%g"), it->value.GetDouble());
-		else if (it->value.IsString())
-			CLogApp::Debug(A2W(it->value.GetString()));
-		else if (it->value.IsBool())
-			CLogApp::Debug(it->value.GetBool() ? _T("true") : _T("false"));
-		else if (it->value.IsArray())
-		{
-			for (auto it2 = it->value.Begin(); it2 != it->value.End(); it2++)
-			{
-				if (it2->IsNumber())
-					CLogApp::Debug(_T("%g"), it2->GetDouble());
-				else if (it2->IsString())
-					CLogApp::Debug(A2W((it2->GetString())));
-				else if (it2->IsBool())
-					CLogApp::Debug(it2->GetBool() ? _T("true") : _T("false"));
+	CString sEvent = A2W(d["event"].GetString());
+	if (sEvent == _T("move")) {
+		GetClientRect(&m_BeginMoveRect);
+		ClientToScreen(&m_BeginMoveRect);
+		GetCursorPos(&m_BeginMovePoint);
+		m_bMoveWindow = data.GetBool();
+		if (m_bMoveWindow) CRawInput::Register(GetSafeHwnd(), RAW_TYPE_MS);
+		else CRawInput::Remove(GetSafeHwnd(), RAW_TYPE_MS);
+		return S_OK;
+	}
+	else if (sEvent == _T("lock")) {
+		bool bMouseThrough = data.GetBool();
+		SetMouseThrough(bMouseThrough);
+	}
+	else if (sEvent == _T("top")) {
+		bool bTop = data.GetBool();
+		m_Note.UpdateTopMost(bTop);
+		if (bTop) SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		else SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	}
+	else if (sEvent == _T("opacityable")) {
+		bool bOpacity = data.GetBool();
+		m_Note.UpdateOpacityAble(bOpacity);
+		if (bOpacity) SetWindownAlpha(m_Note.GetNoteGroup().nOpacity);
+		else SetWindownAlpha(100);
+	}
+	else if (sEvent == _T("bgcolor")) {
+		CString sHex = data.IsNull() ? _T("#0b0f14") : A2W(data.GetString());
+		m_Note.UpdateBgColor(Cvt::ToColor(sHex));
+	}
+	else if (sEvent == _T("close")) {
+		CDialogEx::OnCancel();
+	}
+	else if (sEvent == _T("add")) {
+		NoteItem item;
+		if (!data.HasMember("id")) return E_NOTIMPL;
+		item.uId = data["id"].GetUint64();
+		if (!data.HasMember("content")) return E_NOTIMPL;
+		item.sContent = A2W(data["content"].GetString());
+		if (!data.HasMember("finish")) return E_NOTIMPL;
+		item.bFinished = data["finish"].GetBool();
+		m_Note.SetNoteItem(item, m_Note.GetNoteGroup().vNotes.size(), true);
+		m_Note.GetNoteGroup().vNotes.push_back(item);
+	}
+	else if (sEvent == _T("update")) {
+		vector<NoteItem> vNotes = m_Note.GetNoteGroup().vNotes;
+		NoteItem item;
+		item.uId = data["id"].GetUint64();
+		if (!data.HasMember("content")) return E_NOTIMPL;
+		item.sContent = A2W(data["content"].GetString());
+		if (!data.HasMember("finish")) return E_NOTIMPL;
+		item.bFinished = data["finish"].GetBool();
+		
+		for (int i = 0; i < vNotes.size(); i++) {
+			if (vNotes[i].uId == item.uId) {
+				m_Note.SetNoteItem(item, i);
+				m_Note.GetNoteGroup().vNotes[i] = item;
+				break;
 			}
 		}
-
+	}
+	else if (sEvent == _T("listen")) {
+		SendNoteItems();
+		SendNoteSetting();
 	}
 
 	return E_NOTIMPL;
@@ -191,8 +396,28 @@ HRESULT CNoteDlg::OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebM
 
 HRESULT CNoteDlg::OnDocumentReady(ICoreWebView2* webview, ICoreWebView2NavigationCompletedEventArgs* args)
 {
-	SetWindownAlpha(m_Note.GetNoteGroup().nOpacity / 100.0);
+	SetWindownAlpha(m_Note.GetNoteGroup().bOpacity ? m_Note.GetNoteGroup().nOpacity : 100);
 	return E_NOTIMPL;
+}
+
+void CNoteDlg::SendMessageToWeb(CString sEvent, rapidjson::Value& data)
+{
+	USES_CONVERSION;
+	Document d;
+	d.SetObject();
+	rapidjson::Value name;
+	name.SetString(W2A(sEvent.GetBuffer()), d.GetAllocator());
+
+	d.AddMember("event", name, d.GetAllocator());
+	d.AddMember("data", data, d.GetAllocator());
+	sEvent.ReleaseBuffer();
+
+	StringBuffer buffer;
+	Writer<StringBuffer> writer(buffer);
+	d.Accept(writer);
+	CString dataJson = A2W(buffer.GetString());
+
+	m_webView->PostWebMessageAsJson(dataJson);
 }
 
 void CNoteDlg::ExecuteScript(CString sJavascript, ICoreWebView2ExecuteScriptCompletedHandler* handler)
@@ -202,10 +427,14 @@ void CNoteDlg::ExecuteScript(CString sJavascript, ICoreWebView2ExecuteScriptComp
 
 const TCHAR* CNoteDlg::GetDocumentReadyJavascript()
 {
-	return _T("window.valueTest = { ")
-		_T("a: '测试' ")
-		_T("};");
+	return _T("");
 }
 
-
+void CNoteDlg::OnMouseMoving(CPoint pt)
+{
+	if (!m_bMoveWindow) return;
+	CPoint ptOffset = m_BeginMovePoint - m_BeginMoveRect.TopLeft();
+	CPoint newPosition = pt - ptOffset;
+	SetWindowPos(NULL, newPosition.x, newPosition.y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+}
 

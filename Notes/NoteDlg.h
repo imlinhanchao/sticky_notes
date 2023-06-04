@@ -18,12 +18,20 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg LRESULT OnNcHitTest(CPoint point);
+	afx_msg void OnNcMouseMove(UINT nHitTest, CPoint point);
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void OnPaint();
+	afx_msg void OnRawInput(UINT nInputcode, HRAWINPUT hRawInput);
 
 	DECLARE_MESSAGE_MAP()
 
 	void Init();
 	void SetWindownAlpha(float fAlpha);
-	void SetMouseThought(bool bThought);
+	void SetMouseThrough(bool bThought);
+
+	void SendNoteItems();
+	void SendNoteSetting();
 
 	void InitWebView();
 	HRESULT OnCreateEnvironmentCompleted(HRESULT result, ICoreWebView2Environment* environment);
@@ -31,14 +39,21 @@ protected:
 	HRESULT OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebMessageReceivedEventArgs* args);
 	HRESULT OnDocumentReady(ICoreWebView2* webview, ICoreWebView2NavigationCompletedEventArgs* args);
 
+	void SendMessageToWeb(CString sEvent, rapidjson::Value& data);
 	void ExecuteScript(CString sJavascript, ICoreWebView2ExecuteScriptCompletedHandler* handler);
 	const TCHAR* GetDocumentReadyJavascript();
+	void OnMouseMoving(CPoint pt);
 
 private:
 	Microsoft::WRL::ComPtr<ICoreWebView2Environment> m_webViewEnvironment;
 	Microsoft::WRL::ComPtr<ICoreWebView2Controller> m_controller;
 	Microsoft::WRL::ComPtr<ICoreWebView2> m_webView;
+	CBrush m_brush;
+	bool m_bMoveWindow;
+	CRect m_BeginMoveRect;
+	CPoint m_BeginMovePoint;
 
 public:
 	CNote m_Note;
+	afx_msg void OnMove(int x, int y);
 };

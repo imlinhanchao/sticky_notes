@@ -20,6 +20,8 @@ public:
 	static CString ToString(const TCHAR* pszFormat, ...);
 	static CString ToString(CTime time, CString sFormat=_T("%Y-%m-%d %H:%M:%S"));
 	static vector<CString> SplitString(CString sData, CString sSp);
+	static CString ToHex(COLORREF color);
+	static COLORREF ToColor(CString sHex);
 
 };
 

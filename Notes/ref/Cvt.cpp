@@ -118,4 +118,24 @@ vector<CString> Cvt::SplitString( CString sData, CString sSp )
 	return lstList;
 }
 
+CString Cvt::ToHex(COLORREF color)
+{
+	CString sColor = _T("");
+	sColor.Format(_T("#%02X%02X%02X"), GetRValue(color), GetGValue(color), GetBValue(color));
+
+	return sColor;
+}
+
+COLORREF Cvt::ToColor(CString sHex)
+{
+	if (sHex.GetLength() != 7)
+	{
+		return RGB(0, 0, 0);
+	}
+
+	int nR = 0, nG = 0, nB = 0;
+	_stscanf(sHex, _T("#%2X%2X%2X"), &nR, &nG, &nB);
+	return RGB(nR, nG, nB);
+}
+
 }

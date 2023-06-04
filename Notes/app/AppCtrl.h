@@ -8,6 +8,7 @@ public:
 	~CAppCtrl(void);
 
 	void Init();
+	void New(CString sName = _T(""));
 
 private:
 	vector<CNoteDlg*> m_NoteListDlg;

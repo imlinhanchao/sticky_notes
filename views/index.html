@@ -4,10 +4,32 @@
     <meta charset="UTF-8">
     <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
+    <title>Sticky</title>
+    <style>
+      img#preload {
+        width: 128px;
+        height: 128px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+      }
+      body {
+        background-color: #fff;
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #0b0f14;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <img id="preload" src="/logo.png" />
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

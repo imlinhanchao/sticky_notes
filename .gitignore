@@ -1,6 +1,7 @@
 bin
 *release
 *debug
+*debughttp
 *ipch
 *.sdf
 *.aps

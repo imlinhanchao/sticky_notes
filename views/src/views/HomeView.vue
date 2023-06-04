@@ -1,37 +1,25 @@
-<script setup lang="ts">
-import { computed, ref } from 'vue'
-import { marked } from 'marked'
+<script setup lang="ts" name="Home">
+import { computed, onMounted, ref } from 'vue'
+import NoteItem, { Note } from './NoteItem.vue';
+import { listen, send } from '@/utils/message';
 
-const data = ref([
-  {
-    id: 1,
-    finish: false,
-    content: `# 完成登录界面1
-1. 草草草草
-2. 顶顶顶顶
-[123456](5555)
-    `
-  },
-  {
-    id: 2,
-    finish: false,
-    content: '完成登录界面2,完成登录界面,完成登录界面，完成登录界面，完成登录界面'
-  },
-  {
-    id: 3,
-    finish: false,
-    content: '完成登录界面3'
-  },
-  {
-    id: 4,
-    finish: true,
-    content: '完成登录界面4'
-  }
+onMounted(() => {
+  listen((event, data) => {
+    switch(event) {
+      case 'data':
+        dataList.value = data;
+        break;
+    }
+  })
+  send('listen');
+})
+
+const dataList = ref<Note[]>([
 ])
 
 // 将 finish 排在后面
 const sortData = computed(() => {
-  const sortd = [...data.value];
+  const sortd = [...dataList.value];
   return sortd.sort((a, b) => {
     if (a.finish && !b.finish) {
       return 1
@@ -45,34 +33,27 @@ const sortData = computed(() => {
 
 const content = ref('');
 function add() {
-  data.value.push({
-    id: new Date().getTime(),
-    finish: false,
-    content: content.value
-  });
-  content.value = ''
+  if (!content.value) return;
+  const data = new Note(content.value);
+  dataList.value.push(data);
+  content.value = '';
+  send('add', data);
 }
 </script>
 
 <template>
   <el-main>
     <ul class="my-2">
-      <li 
-        @click="d.finish = !d.finish" 
+      <NoteItem 
         v-for="(d, i) in sortData" 
         :key="i" 
-        class="m-2 rounded border-2 px-2 py-1 cursor-pointer relative"
-        :class="{ 
-          'border-blue-400': d.finish,
-          'text-blue-400': d.finish, 
-        }"
-      >
-        <el-checkbox class="absolute top-0 left-2" v-model="d.finish"> &nbsp; </el-checkbox>
-        <del class="markdown-body" v-if="d.finish" v-html="marked(d.content)"></del>
-        <span class="markdown-body" v-else  v-html="marked(d.content)"></span>
-      </li>
+        :model-value="d"
+        @update:model-value="d => dataList[
+          dataList.findIndex(a => d.id == a.id)
+        ] = d"
+      />
       <li 
-        class="m-2 rounded border-2 cursor-pointer relative"
+        class="m-2 rounded border-2 cursor-pointer relative border-current"
       >
         <el-input 
           type="textarea" 
@@ -88,7 +69,7 @@ function add() {
           @keydown.enter.ctrl.exact="add"
           v-model="content"
         />
-        <el-button link class="absolute top-1 left-2">
+        <el-button link class="absolute top-1 left-1 text-lg">
           <font-awesome-icon :icon="['fas', 'plus']" />
         </el-button>
       </li>

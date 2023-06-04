@@ -14,6 +14,13 @@ public:
 	NoteGroup& GetNoteGroup();
 	void SetNoteGroup(NoteGroup group);
 
+	void SetNoteItem(NoteItem item, int nIndex, bool bNew = false);
+	void UpdateRect(CRect rc);
+	void UpdateOpacity(int nOpacity);
+	void UpdateOpacityAble(bool bOpacityAble);
+	void UpdateTopMost(bool bTopMost);
+	void UpdateBgColor(COLORREF clrBg);
+
 private:
 	NoteGroup m_noteGroup;
 };

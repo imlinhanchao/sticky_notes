@@ -11,8 +11,9 @@ public:
 	static void LoadSetting(Setting &setting);
 	static void SaveSetting(Setting setting);
 	
+	static CString NotesDir();
+
 private:
-	static CString& NotesDir();
 	static Setting m_setting;
 };
 

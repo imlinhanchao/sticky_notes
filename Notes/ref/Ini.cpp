@@ -92,12 +92,12 @@ bool Ini::Read( CString sSection, CString sKeyName, CString& sValue )
 	return false;
 }
 
-bool Ini::Read( CString sSection, CString sKeyName, DWORD& dwValue )
+bool Ini::Read( CString sSection, CString sKeyName, ULONG& dwValue )
 {
 	CString sValue;
 	bool bSuccess = Read(sSection, sKeyName, sValue);
 
-	if(bSuccess) dwValue = _ttol(sValue);
+	if(bSuccess) dwValue = _ttoll(sValue);
 	return bSuccess;
 }
 

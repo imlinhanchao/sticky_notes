@@ -100,7 +100,7 @@ BOOL CNotesDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	// TODO: Add extra initialization here
+	Init();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -156,14 +156,13 @@ HCURSOR CNotesDlg::OnQueryDragIcon()
 
 void CNotesDlg::OnBnClickedBtnNew()
 {
-	CNoteDlg* pDlg = new CNoteDlg();
-	//pDlg->m_Note.Create(_T("Test"));
-	pDlg->Create(IDD_DLG_NOTE, NULL);
+	m_ctrl.New(CTime::GetCurrentTime().Format(_T("%Y%m%d%H%M%S")));
 
 }
 
 void CNotesDlg::Init()
 {
+	m_ctrl.Init();
 }
 
 

@@ -1,8 +1,48 @@
 body {
   margin: 0;
   padding: 0;
+  color: var(--el-text-color-primary);
 }
 
 .el-textarea {
   --el-input-bg-color: transparent;
+}
+
+.el-button {
+  --el-button-text-color: var(--el-text-color-primary)
+}
+
+.el-checkbox__inner {
+  border-color: var(--el-text-color-primary);
+  background-color: transparent;
+  border-width: 2px;
+}
+
+.el-color-picker__trigger {
+  border: none;
+  .el-color-picker__color {
+    border-color: var(--el-text-color-primary);
+    .el-color-picker__icon {
+      color: var(--el-text-color-primary);
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFF;
+}
+
+:root {
+  --background-color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #0b0f14;
+  }
 }
