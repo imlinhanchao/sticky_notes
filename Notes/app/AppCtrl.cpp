@@ -24,6 +24,47 @@ void CAppCtrl::New(CString sName)
 {
 	CNoteDlg* pDlg = new CNoteDlg();
 	pDlg->m_Note.Create(sName);
-	pDlg->Create(IDD_DLG_NOTE, NULL);
-	m_NoteListDlg.push_back(pDlg);
+	if (pDlg->m_Note.GetNoteGroup().bVisible)
+	{
+		pDlg->Create(IDD_DLG_NOTE, NULL);
+		pDlg->SetMouseThrough(!sName.IsEmpty());
+		m_NoteListDlg.push_back(pDlg);
+	}
+	else {
+		delete pDlg;
+	}
+}
+
+bool CAppCtrl::CheckEdit()
+{
+	CPoint mousePt;
+	GetCursorPos(&mousePt);
+	for (int i = 0; i < m_NoteListDlg.size(); i++)
+	{
+		CRect rc;
+		m_NoteListDlg[i]->GetClientRect(&rc);
+		m_NoteListDlg[i]->ClientToScreen(&rc);
+		if (PtInRect(&rc, mousePt))
+		{
+			m_NoteListDlg[i]->SetMouseThrough(false);
+			return true;
+		}
+	}
+	return false;
+}
+
+void CAppCtrl::MouseThrough()
+{
+	for (int i = 0; i < m_NoteListDlg.size(); i++)
+	{
+		m_NoteListDlg[i]->SetMouseThrough(true);
+	}
+}
+
+void CAppCtrl::Visible(bool bShow)
+{
+	for (int i = 0; i < m_NoteListDlg.size(); i++)
+	{
+		m_NoteListDlg[i]->ShowWindow(bShow ? SW_SHOW : SW_HIDE);
+	}
 }

@@ -18,8 +18,9 @@ typedef struct _MODULE_VER { // Module version
 class Utility
 {
 public:
-	static bool Utility::IsWow64();
-	static MODULE_VER Utility::GetVersion(CString sModuleName);
+	static bool IsWow64();
+	static MODULE_VER GetVersion(CString sModuleName);
+	static void SetAutoRun(bool bAuto);
 };
 
 }

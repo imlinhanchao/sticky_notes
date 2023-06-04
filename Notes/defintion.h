@@ -42,12 +42,14 @@ typedef struct NoteGroup
 
 typedef struct _Setting
 {
+	bool bAutoRun;
 	DWORD dwEditHotKey;
 	DWORD dwNewHotKey;
 	DWORD dwUnActiveHotKey;
 	CString sNoteDir;
 
 	_Setting() {
+		bAutoRun = true;
 		dwEditHotKey = ((CHotKeyEdit::WIN | CHotKeyEdit::SHIFT) << 8) | VK_F7;
 		dwNewHotKey = ((CHotKeyEdit::WIN | CHotKeyEdit::SHIFT) << 8) | VK_F8;
 		dwUnActiveHotKey = ((CHotKeyEdit::WIN | CHotKeyEdit::SHIFT) << 8) | VK_F9;

@@ -98,4 +98,14 @@ MODULE_VER Utility::GetVersion(CString sModuleName)
 
 	return ver;
 }
+
+void Utility::SetAutoRun(bool bAuto)
+{
+	#define AUTO_REG _T("Software\\Microsoft\\Windows\\CurrentVersion\\Run")
+	Registry reg(HKEY_CURRENT_USER, true);
+
+	if (bAuto) reg.Write(AUTO_REG, _T("Sticky Note"), Path::GetProgramPath());
+	else reg.DeleteValue(AUTO_REG, _T("Sticky Note"));
+}
+
 }

@@ -113,7 +113,7 @@ void CNote::Hide()
 	m_noteGroup.bVisible = true;
 	Ini ini(CConfig::NotesDir() + m_noteGroup.sName + _T(".ini"));
 
-	ini.Write(_T("Group"), _T("Visible"), true);
+	ini.Write(_T("Group"), _T("Visible"), false);
 }
 
 void CNote::Clear()

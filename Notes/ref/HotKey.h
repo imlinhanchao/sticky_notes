@@ -15,7 +15,7 @@ public:
 	CHotKey(void);
 	~CHotKey(void);
 
-	static void SetWithCall(DWORD dwHotKey, HOTKEYCALLBACK pCallback, LPVOID lpParam);
+	static bool SetWithCall(DWORD dwHotKey, HOTKEYCALLBACK pCallback, LPVOID lpParam, HWND hWnd = NULL);
 	static bool RemoveHotKey(DWORD dwHotKey, HWND hWnd = NULL);
 	static bool SetHotKey(DWORD dwHotKey, HWND hWnd = NULL);
 	static CString GetHotKeyName(DWORD dwHotKey);

@@ -21,6 +21,7 @@ public:
 	void UpdateTopMost(bool bTopMost);
 	void UpdateBgColor(COLORREF clrBg);
 	void Hide();
+	void Clear();
 
 private:
 	NoteGroup m_noteGroup;

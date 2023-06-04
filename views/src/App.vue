@@ -3,7 +3,7 @@ import { onMounted, ref, watch } from 'vue'
 import { isWebview, listen, send } from '@/utils/message'
 import { useDark } from '@vueuse/core'
 
-const lock = ref(false)
+const lock = ref(true)
 
 const defaultColor = '#0b0f14';
 const setting = ref({
@@ -29,6 +29,9 @@ onMounted(() => {
       case 'setting':
         setting.value = data
         loading.value = false
+        break
+      case 'lock':
+        lock.value = data
         break
     }
   })

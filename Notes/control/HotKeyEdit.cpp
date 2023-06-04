@@ -216,7 +216,7 @@ DWORD CHotKeyEdit::GetHotKey(void)
 		dwHotKey <<= 8;
 		dwHotKey |= m_uKeyCode;
 	}
-	return 0;
+	return dwHotKey;
 }
 
 

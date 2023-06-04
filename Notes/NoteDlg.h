@@ -23,15 +23,15 @@ protected:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg void OnPaint();
 	afx_msg void OnRawInput(UINT nInputcode, HRAWINPUT hRawInput);
+	afx_msg void OnMove(int x, int y);
 
 	DECLARE_MESSAGE_MAP()
 
 	void Init();
-	void SetWindownAlpha(float fAlpha);
-	void SetMouseThrough(bool bThought);
 
 	void SendNoteItems();
 	void SendNoteSetting();
+	void SendMouseThrough();
 
 	void InitWebView();
 	HRESULT OnCreateEnvironmentCompleted(HRESULT result, ICoreWebView2Environment* environment);
@@ -55,5 +55,8 @@ private:
 
 public:
 	CNote m_Note;
-	afx_msg void OnMove(int x, int y);
+
+	void SetWindownAlpha(float fAlpha);
+	void SetMouseThrough(bool bThought);
+	bool IsMouseThrough();
 };

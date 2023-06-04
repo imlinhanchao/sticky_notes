@@ -14,11 +14,11 @@ CHotKey::~CHotKey(void)
 {
 }
 
-void CHotKey::SetWithCall( DWORD dwHotKey, HOTKEYCALLBACK pCallback, LPVOID lpParam )
+bool CHotKey::SetWithCall( DWORD dwHotKey, HOTKEYCALLBACK pCallback, LPVOID lpParam, HWND hWnd)
 {
 	HOTKEY_CALL hotkeyCall = { pCallback, lpParam };
 	m_HotKeyCallback[dwHotKey] = hotkeyCall;
-	SetHotKey(dwHotKey);
+	return SetHotKey(dwHotKey, hWnd);
 }
 
 bool CHotKey::RemoveHotKey( DWORD dwHotKey, HWND hWnd )

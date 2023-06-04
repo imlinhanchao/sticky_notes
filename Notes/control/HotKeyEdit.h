@@ -7,7 +7,7 @@ public:
 	CHotKeyEdit(void);
 	~CHotKeyEdit(void);
 
-	enum { ALT = 1, CONTROL= 2, SHIFT = 4, WIN = 8 };
+	enum { SHIFT = 1, CONTROL= 2, ALT = 4, WIN = 8 };
 
 	void SetSingleKey(bool bSingle, bool bHotKey=false);
 

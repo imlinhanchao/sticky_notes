@@ -38,7 +38,7 @@ bool CConfig::GetNoteGroup(CString sName, NoteGroup& group)
 	ini.Read(_T("Group"), _T("Rect"), sRect);
 	ini.Read(_T("Group"), _T("Opacity"), group.nOpacity);
 	ini.Read(_T("Group"), _T("OpacityAble"), group.bOpacity);
-	ini.Read(_T("Group"), _T("Visable"), group.bVisible);
+	ini.Read(_T("Group"), _T("Visible"), group.bVisible);
 	ini.Read(_T("Group"), _T("TopMost"), group.bTopMost);
 	ini.Read(_T("Group"), _T("BgColor"), group.bgColor);
 	vector<CString> lstRect = Cvt::SplitString(sRect, _T(","));
@@ -67,7 +67,7 @@ void CConfig::SetNoteGroup( NoteGroup group)
 	ini.Write(_T("Group"), _T("Name"), group.sName);
 	ini.Write(_T("Group"), _T("Opacity"), group.nOpacity);
 	ini.Write(_T("Group"), _T("OpacityAble"), group.bOpacity);
-	ini.Write(_T("Group"), _T("Visable"), group.bVisible);
+	ini.Write(_T("Group"), _T("Visible"), group.bVisible);
 	ini.Write(_T("Group"), _T("TopMost"), group.bTopMost);
 	ini.Write(_T("Group"), _T("Rect"), Cvt::ToString(group.rect.left) + _T(",") + Cvt::ToString(group.rect.top) + _T(",") + Cvt::ToString(group.rect.right) + _T(",") + Cvt::ToString(group.rect.bottom));
 	ini.Write(_T("Group"), _T("BgColor"), group.bgColor);
@@ -97,26 +97,30 @@ bool CConfig::RenameNoteGroup(CString sOldName, CString sNewName)
 
 void CConfig::LoadSetting(Setting& setting)
 {
-	CString sConfigFile = NotesDir() + _T("setting.ini");
+	CString sConfigFile = Path::GetCurDirectory(_T("setting.ini"));
+
+	if (!Path::Exists(sConfigFile)) return;
 
 	Ini ini(sConfigFile);
 	ini.Read(_T("HotKey"), _T("Edit"), setting.dwEditHotKey);
 	ini.Read(_T("HotKey"), _T("New"), setting.dwNewHotKey);
 	ini.Read(_T("HotKey"), _T("UnActive"), setting.dwUnActiveHotKey);
 	ini.Read(_T("Setting"), _T("NoteDir"), setting.sNoteDir);
+	ini.Read(_T("Setting"), _T("AutoRun"), setting.bAutoRun);
 
 	m_setting = setting;
 }
 
 void CConfig::SaveSetting(Setting setting)
 {
-	CString sConfigFile = NotesDir() + _T("setting.ini");
+	CString sConfigFile = Path::GetCurDirectory(_T("setting.ini"));
 
 	Ini ini(sConfigFile);
 	ini.Write(_T("HotKey"), _T("Edit"), setting.dwEditHotKey);
 	ini.Write(_T("HotKey"), _T("New"), setting.dwNewHotKey);
 	ini.Write(_T("HotKey"), _T("UnActive"), setting.dwUnActiveHotKey);
 	ini.Write(_T("Setting"), _T("NoteDir"), setting.sNoteDir);
+	ini.Write(_T("Setting"), _T("AutoRun"), setting.bAutoRun);
 
 	m_setting = setting;
 }

@@ -211,6 +211,16 @@ public:
 	static CString Folder(HWND hWnd, CString sRootPath=_T(""));
 
 	/*!
+	 * @brief Copy 
+	 * 
+	 * copy file or folder with a loading dialog
+	 * @param sSrc Source file or folder.
+	 * @param sDst Copy Target Path.
+	 * @return CString The final path
+	 */
+	static int CopyTo(vector<CString> lstSrc, CString sDst);
+
+	/*!
 	 * @brief GetFileList 
 	 * 
 	 * Traversing folder and get file list

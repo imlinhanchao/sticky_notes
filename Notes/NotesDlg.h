@@ -13,7 +13,7 @@ public:
 	CNotesDlg(CWnd* pParent = NULL);	// standard constructor
 
 // Dialog Data
-	enum { IDD = IDD_NOTES_DIALOG };
+	enum { IDD = IDD_NOTES_DIALOG, WM_TRAYICON = WM_USER + 100 };
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
@@ -29,13 +29,32 @@ protected:
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
-	afx_msg void OnBnClickedBtnNew();
+	afx_msg void OnClose();
+	afx_msg LRESULT OnTrayIcon(WPARAM wParam, LPARAM lParam);
+	virtual void OnCancel();
 
 	DECLARE_MESSAGE_MAP()
 
 	void Init();
+	void InitSetting(Setting setting);
+	Setting ReadSetting();
+	void SetHotKey();
+	void SetTrayIcon();
+	void SetWindownAlpha(float fAlpha);
+	bool ShowInTaskbar(HWND hWnd, bool isShow);
 
-public:
 	CHotKeyEdit m_ActiveHKey;
+	CHotKeyEdit m_UnActiveHKey;
+	CHotKeyEdit m_NewHKey;
+	CMenu m_MenuTray;
+public:
 	static CAppCtrl m_ctrl;
+	Setting m_setting;
+	afx_msg void OnNew();
+	afx_msg void OnHideall();
+	afx_msg void OnShowall();
+	afx_msg void OnShow();
+	afx_msg void OnQuit();
+	afx_msg void OnBnClickedBtnBrowse();
+	afx_msg void OnBnClickedOk();
 };

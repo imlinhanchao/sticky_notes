@@ -232,6 +232,42 @@ CString Path::Folder( HWND hWnd, CString sRootPath/*=_T("")*/ )
 	return sPath;
 }
 
+int Path::CopyTo( vector<CString> lstSrc, CString sDst )
+{
+	CString sSrc;
+	for (vector<CString>::iterator it = lstSrc.begin(); it != lstSrc.end(); it++)
+	{
+		sSrc += it->Trim('\\') + _T("|");
+	}
+	sDst.Trim('\\');
+
+	int nSrcSize = sSrc.GetLength() + 2, nDstSize = sDst.GetLength() + 2;
+	TCHAR* pFrom = new TCHAR[nSrcSize];
+	TCHAR* pTo = new TCHAR[nDstSize];
+
+	ZeroMemory(pFrom, sizeof(TCHAR) * (nSrcSize));
+	ZeroMemory(pTo, sizeof(TCHAR) * (nDstSize));
+	_tcscpy(pFrom, sSrc.GetBuffer());
+	_tcscpy(pTo, sDst.GetBuffer());
+	sSrc.ReleaseBuffer();
+	sDst.ReleaseBuffer();
+
+	for (int i = 0; i < nSrcSize; i++)
+	{
+		if(pFrom[i] == '|') pFrom[i] = 0;
+	}
+
+	SHFILEOPSTRUCT fop;
+	ZeroMemory(&fop, sizeof(SHFILEOPSTRUCT));
+	fop.wFunc = FO_COPY;
+	fop.pFrom = pFrom;
+	fop.pTo = pTo;
+	int nRet = SHFileOperation(&fop);
+	delete pFrom;
+	delete pTo;
+	return nRet;
+}
+
 vector<CString> Path::Traversing( CString sDirectory, FILITER filter/*=NULL*/ )
 {
 	vector<CString> lstPath;

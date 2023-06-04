@@ -181,13 +181,14 @@ DONE:
 
 void CNoteDlg::Init()
 {
-	//SetMouseThought();
+	SetMouseThrough(true);
 	SetWindownAlpha(0);
 	CRect rc = m_Note.GetNoteGroup().rect;
 	SetWindowPos(m_Note.GetNoteGroup(). bTopMost ? &wndTopMost : &wndNoTopMost, rc.left, rc.top, rc.Width(), rc.Height(), SWP_SHOWWINDOW);
 
 	InitWebView();
 }
+
 
 void CNoteDlg::SetWindownAlpha( float fAlpha )
 {
@@ -198,9 +199,15 @@ void CNoteDlg::SetWindownAlpha( float fAlpha )
 void CNoteDlg::SetMouseThrough(bool bThought)
 {
 	DWORD dwNewLong = GetWindowLong(m_hWnd, GWL_EXSTYLE); 
-	if (bThought) dwNewLong |= WS_EX_TRANSPARENT | WS_EX_LAYERED;
-	else dwNewLong &= ~(WS_EX_TRANSPARENT | WS_EX_LAYERED);
+	if (bThought) dwNewLong |= WS_EX_TRANSPARENT;
+	else dwNewLong &= ~(WS_EX_TRANSPARENT);
 	SetWindowLong(m_hWnd, GWL_EXSTYLE, dwNewLong);
+	if (m_webView != NULL) SendMouseThrough();
+	//if (IsWindowVisible()) SetWindownAlpha(m_Note.GetNoteGroup().nOpacity);
+}
+
+bool CNoteDlg::IsMouseThrough() {
+	return GetWindowLong(m_hWnd, GWL_EXSTYLE) & WS_EX_TRANSPARENT;
 }
 
 
@@ -239,6 +246,13 @@ void CNoteDlg::SendNoteSetting()
 	data.AddMember("opacityable", opacityable, data.GetAllocator());
 	data.AddMember("topmost", topmost, data.GetAllocator());
 	SendMessageToWeb(_T("setting"), data);
+}
+
+void CNoteDlg::SendMouseThrough()
+{
+	Document data;
+	data.SetBool(IsMouseThrough());
+	SendMessageToWeb(_T("lock"), data);
 }
 
 
@@ -409,6 +423,7 @@ HRESULT CNoteDlg::OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebM
 	else if (sEvent == _T("listen")) {
 		SendNoteItems();
 		SendNoteSetting();
+		SendMouseThrough();
 	}
 
 	return E_NOTIMPL;
