@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check build-only",
+    "build": "run-p type-check build-only to-files",
     "preview": "vite preview",
     "build-only": "vite build",
+    "to-files": "node tofiles.js",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
@@ -19,12 +20,14 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@types/marked": "^5.0.0",
+    "@vitejs/plugin-legacy": "^4.0.4",
     "@vueuse/core": "^10.1.2",
     "element-plus": "^2.3.5",
     "marked": "^5.0.4",
     "pinia": "^2.0.36",
     "sass": "^1.62.1",
     "scss-loader": "^0.0.1",
+    "terser": "^5.17.7",
     "vue": "^3.3.2",
     "vue-router": "^4.2.0"
   },
