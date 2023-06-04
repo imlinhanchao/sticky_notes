@@ -86,10 +86,10 @@ function clear() {
     <el-button class="w-full" type="primary" @click="hide">
       <font-awesome-icon :icon="['fas', 'eye-slash']" />&nbsp;隐藏显示
     </el-button>
-    <el-popconfirm title="删除后将无法找回，是否确认完成删除?" @confirm="clear">
+    <el-popconfirm title="删除后将无法找回，是否确认完全删除?" @confirm="clear">
       <template #reference>
         <el-button class="w-full" type="danger">
-          <font-awesome-icon :icon="['fas', 'trash']" />&nbsp;完成删除
+          <font-awesome-icon :icon="['fas', 'trash']" />&nbsp;完全删除
         </el-button>
       </template>
     </el-popconfirm>

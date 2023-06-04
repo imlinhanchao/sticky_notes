@@ -108,4 +108,16 @@ void Utility::SetAutoRun(bool bAuto)
 	else reg.DeleteValue(AUTO_REG, _T("Sticky Note"));
 }
 
+HANDLE Utility::ProgramLock(CString sInstanceName)
+{
+	HANDLE hInstance = CreateMutex(NULL, TRUE, _T("GRAPHICS ENGINE_INSTANCE"));
+	if (ERROR_ALREADY_EXISTS == GetLastError())
+	{
+		CloseHandle(hInstance);
+		hInstance = nullptr;
+		::PostQuitMessage(0);
+	}
+	return hInstance;
+}
+
 }

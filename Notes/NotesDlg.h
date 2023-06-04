@@ -31,6 +31,13 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	afx_msg void OnClose();
 	afx_msg LRESULT OnTrayIcon(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnNew();
+	afx_msg void OnHideall();
+	afx_msg void OnShowall();
+	afx_msg void OnShow();
+	afx_msg void OnQuit();
+	afx_msg void OnBnClickedBtnBrowse();
+	afx_msg void OnBnClickedOk();
 	virtual void OnCancel();
 
 	DECLARE_MESSAGE_MAP()
@@ -47,14 +54,11 @@ protected:
 	CHotKeyEdit m_UnActiveHKey;
 	CHotKeyEdit m_NewHKey;
 	CMenu m_MenuTray;
+	NOTIFYICONDATA m_nid;
+
+	HANDLE m_Instance;
 public:
 	static CAppCtrl m_ctrl;
 	Setting m_setting;
-	afx_msg void OnNew();
-	afx_msg void OnHideall();
-	afx_msg void OnShowall();
-	afx_msg void OnShow();
-	afx_msg void OnQuit();
-	afx_msg void OnBnClickedBtnBrowse();
-	afx_msg void OnBnClickedOk();
+	afx_msg void OnDestroy();
 };

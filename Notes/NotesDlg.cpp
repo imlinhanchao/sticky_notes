@@ -76,6 +76,7 @@ BEGIN_MESSAGE_MAP(CNotesDlg, CDialogEx)
 	ON_COMMAND(ID_QUIT, &CNotesDlg::OnQuit)
 	ON_BN_CLICKED(IDC_BTN_BROWSE, &CNotesDlg::OnBnClickedBtnBrowse)
 	ON_BN_CLICKED(IDOK, &CNotesDlg::OnBnClickedOk)
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 
@@ -109,6 +110,12 @@ BOOL CNotesDlg::OnInitDialog()
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
+
+	m_Instance = Utility::ProgramLock(_T("HANCEL_STICKY_NOTES_APP"));
+	if (m_Instance == nullptr)
+	{
+		return FALSE;
+	}
 
 	Init();
 
@@ -197,6 +204,8 @@ bool CNotesDlg::ShowInTaskbar(HWND hWnd, bool isShow)
 
 void CNotesDlg::Init()
 {
+	CLogApp::Init(LOG_ALL);
+
 	m_ctrl.Init();
 	CConfig::LoadSetting(m_setting);
 	CConfig::SaveSetting(m_setting);
@@ -249,19 +258,18 @@ void CNotesDlg::SetHotKey()
 
 void CNotesDlg::SetTrayIcon()
 {
-	NOTIFYICONDATA nid;
-	nid.cbSize = sizeof(NOTIFYICONDATA);
-	nid.hWnd = GetSafeHwnd();
-	nid.uID = IDR_MAINFRAME;
-	nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
-	nid.uCallbackMessage = WM_TRAYICON;
-	nid.hIcon = m_hIcon;
+	m_nid.cbSize = sizeof(NOTIFYICONDATA);
+	m_nid.hWnd = GetSafeHwnd();
+	m_nid.uID = IDR_MAINFRAME;
+	m_nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+	m_nid.uCallbackMessage = WM_TRAYICON;
+	m_nid.hIcon = m_hIcon;
 	CString sTip;
 	auto version = Utility::GetVersion(Path::GetProgramPath());
 	sTip = _T("Sticky Notes V") + version.ToString();
-	_tcscpy_s(nid.szTip, sTip.GetBuffer());
+	_tcscpy_s(m_nid.szTip, sTip.GetBuffer());
 	sTip.ReleaseBuffer();
-	Shell_NotifyIcon(NIM_ADD, &nid);
+	Shell_NotifyIcon(NIM_ADD, &m_nid);
 
 	m_MenuTray.LoadMenu(IDR_MENU1);
 	AfxBeginThread([](LPVOID lpParam) -> UINT {
@@ -386,4 +394,12 @@ void CNotesDlg::OnBnClickedOk()
 
 	m_setting = setting;
 	CConfig::SaveSetting(m_setting);
+}
+
+
+void CNotesDlg::OnDestroy()
+{
+	CDialogEx::OnDestroy();
+
+	Shell_NotifyIcon(NIM_DELETE, &m_nid);
 }

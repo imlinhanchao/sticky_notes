@@ -7,6 +7,7 @@ CNote::CNote()
 
 CNote::CNote(CString sName)
 {
+	if (sName.IsEmpty()) sName = CTime::GetCurrentTime().Format(_T("%Y%m%d%H%M%S"));
 	if(!CConfig::GetNoteGroup(sName, m_noteGroup))
 		CConfig::SetNoteGroup(m_noteGroup);
 }
@@ -17,6 +18,7 @@ CNote::~CNote(void)
 
 bool CNote::Create(CString sName)
 {
+	if (sName.IsEmpty()) sName = CTime::GetCurrentTime().Format(_T("%Y%m%d%H%M%S"));
 	if (!CConfig::GetNoteGroup(sName, m_noteGroup)) {
 		CConfig::SetNoteGroup(m_noteGroup);
 		return false;

@@ -25,7 +25,7 @@ void CConfig::LoadNoteGroup(vector<CString>& lstName)
 
 bool CConfig::GetNoteGroup(CString sName, NoteGroup& group)
 {
-	CString sConfigFile = NotesDir() + sName + _T(".ini");
+	CString sConfigFile = Path::Resolve(NotesDir(), sName + _T(".ini"));
 
 	group.sName = sName;
 	if (!Path::Exists(sConfigFile)) return false;
@@ -60,7 +60,9 @@ bool CConfig::GetNoteGroup(CString sName, NoteGroup& group)
 
 void CConfig::SetNoteGroup( NoteGroup group)
 {
-	CString sConfigFile = NotesDir() + group.sName + _T(".ini");
+	CString sConfigFile = Path::Resolve(NotesDir(), group.sName + _T(".ini"));
+
+	CLogApp::Write(_T("SetNoteGroup: ") + sConfigFile);
 
 	Ini ini(sConfigFile);
 	ini.Write(_T("Group"), _T("Count"), group.vNotes.size());
@@ -84,8 +86,8 @@ void CConfig::SetNoteGroup( NoteGroup group)
 
 bool CConfig::RenameNoteGroup(CString sOldName, CString sNewName)
 {
-	CString sOldConfigFile = NotesDir() + sOldName + _T(".ini");
-	CString sNewConfigFile = NotesDir() + sNewName + _T(".ini");
+	CString sOldConfigFile = Path::Resolve(NotesDir(), sOldName + _T(".ini"));
+	CString sNewConfigFile = Path::Resolve(NotesDir(), sNewName + _T(".ini"));
 	if (Path::Exists(sOldConfigFile) && !Path::Exists(sNewConfigFile))
 	{
 		CopyFile(sOldConfigFile, sNewConfigFile, FALSE);
