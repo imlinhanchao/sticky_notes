@@ -43,16 +43,19 @@ typedef struct NoteGroup
 typedef struct _Setting
 {
 	bool bAutoRun;
+	bool bCustomWebview2;
 	DWORD dwEditHotKey;
 	DWORD dwNewHotKey;
 	DWORD dwUnActiveHotKey;
 	CString sNoteDir;
+	CString sWebview2Path;
 
 	_Setting() {
+		bCustomWebview2 = false;
 		bAutoRun = true;
 		dwEditHotKey = ((CHotKeyEdit::WIN | CHotKeyEdit::SHIFT) << 8) | VK_F7;
 		dwNewHotKey = ((CHotKeyEdit::WIN | CHotKeyEdit::SHIFT) << 8) | VK_F8;
 		dwUnActiveHotKey = ((CHotKeyEdit::WIN | CHotKeyEdit::SHIFT) << 8) | VK_F9;
-		sNoteDir = Path::GetCurDirectory(_T("notes"));
+		sNoteDir = Path::GetCurDirectory(_T("notes\\"));
 	}
 }Setting, *PSetting;

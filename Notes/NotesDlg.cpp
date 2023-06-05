@@ -77,6 +77,7 @@ BEGIN_MESSAGE_MAP(CNotesDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_BROWSE, &CNotesDlg::OnBnClickedBtnBrowse)
 	ON_BN_CLICKED(IDOK, &CNotesDlg::OnBnClickedOk)
 	ON_WM_DESTROY()
+	ON_BN_CLICKED(IDC_BTN_BROWSE_RUNTIME, &CNotesDlg::OnBnClickedBtnBrowseRuntime)
 END_MESSAGE_MAP()
 
 
@@ -206,54 +207,67 @@ void CNotesDlg::Init()
 {
 	CLogApp::Init(LOG_ALL);
 
-	m_ctrl.Init();
 	CConfig::LoadSetting(m_setting);
 	CConfig::SaveSetting(m_setting);
 	InitSetting(m_setting);
 
-	SetHotKey();
+	SetHotKey(m_setting);
 	SetTrayIcon();
 	ShowInTaskbar(m_hWnd, false);
 	SetWindownAlpha(0);
 
 	SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_HIDEWINDOW);
+
+	m_ctrl.Init();
 }
 
 void CNotesDlg::InitSetting(Setting setting) 
 {
 	((CButton*)GetDlgItem(IDC_CHK_AUTO))->SetCheck(setting.bAutoRun ? BST_CHECKED : BST_UNCHECKED);
+	((CButton*)GetDlgItem(IDC_CHK_CUSTOM))->SetCheck(setting.bCustomWebview2 ? BST_CHECKED : BST_UNCHECKED);
 	m_ActiveHKey.SetHotKey(setting.dwEditHotKey);
 	m_NewHKey.SetHotKey(setting.dwNewHotKey);
 	m_UnActiveHKey.SetHotKey(setting.dwUnActiveHotKey);
 	SetDlgItemText(IDC_EDIT_NOTE, setting.sNoteDir);
+	SetDlgItemText(IDC_EDIT_RUNTIME, setting.sWebview2Path);
+
 }
 
 Setting CNotesDlg::ReadSetting()
 {
 	Setting setting;
 	setting.bAutoRun = ((CButton*)GetDlgItem(IDC_CHK_AUTO))->GetCheck() == BST_CHECKED;
+	setting.bCustomWebview2 = ((CButton*)GetDlgItem(IDC_CHK_CUSTOM))->GetCheck() == BST_CHECKED;
 	setting.dwEditHotKey = m_ActiveHKey.GetHotKey();
 	setting.dwNewHotKey = m_NewHKey.GetHotKey();
 	setting.dwUnActiveHotKey = m_UnActiveHKey.GetHotKey();
 	GetDlgItemText(IDC_EDIT_NOTE, setting.sNoteDir);
+	GetDlgItemText(IDC_EDIT_RUNTIME, setting.sWebview2Path);
 	return setting;
 }
 
-void CNotesDlg::SetHotKey()
+void CNotesDlg::SetHotKey(Setting setting)
 {
-	CHotKey::SetWithCall(m_setting.dwUnActiveHotKey, [](LPVOID lpParam) -> void {
+	CHotKey::SetWithCall(setting.dwUnActiveHotKey, [](LPVOID lpParam) -> void {
 		CNotesDlg* pMain = (CNotesDlg*)lpParam;
 		pMain->m_ctrl.MouseThrough();
 		}, this, GetSafeHwnd());
-	CHotKey::SetWithCall(m_setting.dwEditHotKey, [](LPVOID lpParam) -> void {
+	CHotKey::SetWithCall(setting.dwEditHotKey, [](LPVOID lpParam) -> void {
 		CNotesDlg* pMain = (CNotesDlg*)lpParam;
 		pMain->m_ctrl.CheckEdit();
 		}, this, GetSafeHwnd());
 
-	CHotKey::SetWithCall(m_setting.dwNewHotKey, [](LPVOID lpParam) -> void {
+	CHotKey::SetWithCall(setting.dwNewHotKey, [](LPVOID lpParam) -> void {
 		CNotesDlg* pMain = (CNotesDlg*)lpParam;
 		pMain->m_ctrl.New();
 		}, this, GetSafeHwnd());
+}
+
+void CNotesDlg::ClearHotKey(Setting setting)
+{
+	CHotKey::RemoveHotKey(setting.dwUnActiveHotKey);
+	CHotKey::RemoveHotKey(setting.dwEditHotKey);
+	CHotKey::RemoveHotKey(setting.dwNewHotKey);
 }
 
 void CNotesDlg::SetTrayIcon()
@@ -392,6 +406,9 @@ void CNotesDlg::OnBnClickedOk()
 
 	Utility::SetAutoRun(m_setting.bAutoRun);
 
+	ClearHotKey(m_setting);
+	SetHotKey(setting);
+
 	m_setting = setting;
 	CConfig::SaveSetting(m_setting);
 }
@@ -402,4 +419,12 @@ void CNotesDlg::OnDestroy()
 	CDialogEx::OnDestroy();
 
 	Shell_NotifyIcon(NIM_DELETE, &m_nid);
+}
+
+
+void CNotesDlg::OnBnClickedBtnBrowseRuntime()
+{
+	CString sPath = Path::Browse(_T("Webview2 File|msedgewebview2.exe;||"), _T(""), TRUE, _T(""));
+	if (sPath.IsEmpty()) return;
+	SetDlgItemText(IDC_EDIT_RUNTIME, sPath);
 }

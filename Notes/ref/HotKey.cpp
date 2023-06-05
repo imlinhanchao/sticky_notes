@@ -23,6 +23,10 @@ bool CHotKey::SetWithCall( DWORD dwHotKey, HOTKEYCALLBACK pCallback, LPVOID lpPa
 
 bool CHotKey::RemoveHotKey( DWORD dwHotKey, HWND hWnd )
 {
+	if (m_HotKeyCallback.find(dwHotKey) != m_HotKeyCallback.end())
+	{
+		m_HotKeyCallback.erase(dwHotKey);
+	}
 	return UnregisterHotKey(hWnd == NULL ? AfxGetMainWnd()->GetSafeHwnd() : hWnd, dwHotKey);
 }
 

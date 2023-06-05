@@ -258,9 +258,17 @@ void CNoteDlg::SendMouseThrough()
 
 void CNoteDlg::InitWebView()
 {
-	CreateCoreWebView2EnvironmentWithOptions(nullptr, nullptr, nullptr,
+	const wchar_t* browserExecutableFolder = nullptr;
+	CString sCustomPath = Path::GetDirectory(CConfig::GetCurrentSetting().sWebview2Path);
+	if (CConfig::GetCurrentSetting().bCustomWebview2 && !CConfig::GetCurrentSetting().sWebview2Path.IsEmpty()) {
+		browserExecutableFolder = sCustomPath.GetBuffer();
+	}
+	auto result = CreateCoreWebView2EnvironmentWithOptions(browserExecutableFolder, nullptr, nullptr,
 		Microsoft::WRL::Callback<ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler>(
 			this, &CNoteDlg::OnCreateEnvironmentCompleted).Get());
+	if (CConfig::GetCurrentSetting().bCustomWebview2 && !CConfig::GetCurrentSetting().sWebview2Path.IsEmpty()) {
+		sCustomPath.ReleaseBuffer();
+	}
 }
 
 HRESULT CNoteDlg::OnCreateEnvironmentCompleted(HRESULT result, ICoreWebView2Environment* environment)

@@ -10,6 +10,7 @@ public:
 
 	static void LoadSetting(Setting &setting);
 	static void SaveSetting(Setting setting);
+	static Setting& GetCurrentSetting();
 	
 	static CString NotesDir();
 

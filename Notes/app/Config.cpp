@@ -109,6 +109,8 @@ void CConfig::LoadSetting(Setting& setting)
 	ini.Read(_T("HotKey"), _T("UnActive"), setting.dwUnActiveHotKey);
 	ini.Read(_T("Setting"), _T("NoteDir"), setting.sNoteDir);
 	ini.Read(_T("Setting"), _T("AutoRun"), setting.bAutoRun);
+	ini.Read(_T("Setting"), _T("CustomWebview2"), setting.bCustomWebview2);
+	ini.Read(_T("Setting"), _T("Webview2Path"), setting.sWebview2Path);
 
 	m_setting = setting;
 }
@@ -117,12 +119,21 @@ void CConfig::SaveSetting(Setting setting)
 {
 	CString sConfigFile = Path::GetCurDirectory(_T("setting.ini"));
 
+	setting.sNoteDir = setting.sNoteDir.Trim('\\') + _T("\\");
+
 	Ini ini(sConfigFile);
 	ini.Write(_T("HotKey"), _T("Edit"), setting.dwEditHotKey);
 	ini.Write(_T("HotKey"), _T("New"), setting.dwNewHotKey);
 	ini.Write(_T("HotKey"), _T("UnActive"), setting.dwUnActiveHotKey);
 	ini.Write(_T("Setting"), _T("NoteDir"), setting.sNoteDir);
 	ini.Write(_T("Setting"), _T("AutoRun"), setting.bAutoRun);
+	ini.Write(_T("Setting"), _T("CustomWebview2"), setting.bCustomWebview2);
+	ini.Write(_T("Setting"), _T("Webview2Path"), setting.sWebview2Path);
 
 	m_setting = setting;
+}
+
+Setting& CConfig::GetCurrentSetting()
+{
+	return m_setting;
 }

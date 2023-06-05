@@ -45,7 +45,8 @@ protected:
 	void Init();
 	void InitSetting(Setting setting);
 	Setting ReadSetting();
-	void SetHotKey();
+	void SetHotKey(Setting setting);
+	void ClearHotKey(Setting setting);
 	void SetTrayIcon();
 	void SetWindownAlpha(float fAlpha);
 	bool ShowInTaskbar(HWND hWnd, bool isShow);
@@ -61,4 +62,5 @@ public:
 	static CAppCtrl m_ctrl;
 	Setting m_setting;
 	afx_msg void OnDestroy();
+	afx_msg void OnBnClickedBtnBrowseRuntime();
 };
