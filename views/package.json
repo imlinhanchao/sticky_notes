@@ -28,7 +28,8 @@
     "scss-loader": "^0.0.1",
     "terser": "^5.17.7",
     "vue": "^3.3.2",
-    "vue-router": "^4.2.0"
+    "vue-router": "^4.2.0",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",

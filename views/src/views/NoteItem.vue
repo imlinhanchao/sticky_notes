@@ -82,6 +82,7 @@ export class Note {
         class="toolbar absolute right-2 space-x-2 text-xs px-2 z-10 rounded-br rounded-bl border-2 hidden" 
         style="background-color: var(--background-color);bottom: -19px; border-top-color: var(--background-color);"
       >
+      <font-awesome-icon class="drag-handle cursor-move" :icon="['fas', 'up-down-left-right']"/>
         <font-awesome-icon class="cursor-pointer" :icon="['far', 'pen-to-square']" @click.stop="edit"/>
         <font-awesome-icon class="cursor-pointer" :icon="['far', 'trash-can']" @click.stop="emit('remove')"/>
       </span>

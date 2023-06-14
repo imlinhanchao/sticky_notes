@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import NoteItem, { Note } from './NoteItem.vue'
 import { listen, send } from '@/utils/message'
+import draggable from 'vuedraggable';
 
 onMounted(() => {
   listen((event, data) => {
@@ -54,18 +55,40 @@ function hide() {
 function clear() {
   send('clear')
 }
+
+const drag = ref(false);
+function onSort({ moved }: any) {
+  let { oldIndex, newIndex } = moved;
+  oldIndex = dataList.value.findIndex((a) => a.id == sortData.value[oldIndex].id);
+  newIndex = dataList.value.findIndex((a) => a.id == sortData.value[newIndex].id);
+  const data = dataList.value[oldIndex];
+  dataList.value.splice(oldIndex, 1);
+  dataList.value.splice(newIndex, 0, data);
+}
 </script>
 
 <template>
   <el-main class="h-full">
-    <ul class="my-2">
-      <NoteItem
-        v-for="(d, i) in sortData"
-        :key="i"
-        :model-value="d"
-        @update:model-value="(d) => (dataList[dataList.findIndex((a) => d.id == a.id)] = d)"
-        @remove="remove(d)"
-      />
+    <draggable 
+      class="my-2"
+      :model-value="sortData"
+      group="note"
+      handle=".drag-handle"
+      tag="ul"
+      itemKey="id"
+      animation="20"
+      ghostClass="drag-ghost"
+      @change="onSort"
+    >
+      <template #item="{ element: row }">
+        <NoteItem
+          :model-value="row"
+          @update:model-value="(d: Note) => (dataList[dataList.findIndex((a) => d.id == a.id)] = d)"
+          @remove="remove(row)"
+        />
+      </template>
+    </draggable>
+    <ul>
       <li class="m-2 rounded border-2 cursor-pointer relative border-current">
         <el-input
           type="textarea"
