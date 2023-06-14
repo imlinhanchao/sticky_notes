@@ -64,6 +64,7 @@ function onSort({ moved }: any) {
   const data = dataList.value[oldIndex];
   dataList.value.splice(oldIndex, 1);
   dataList.value.splice(newIndex, 0, data);
+  send('update_all', dataList.value)
 }
 </script>
 

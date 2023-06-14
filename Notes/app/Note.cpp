@@ -52,6 +52,12 @@ void CNote::SetNoteGroup(NoteGroup group)
 	CConfig::SetNoteGroup(m_noteGroup);
 }
 
+void CNote::SetNoteItems(vector<NoteItem> items)
+{
+	m_noteGroup.vNotes = items;
+	CConfig::SetNoteGroup(m_noteGroup);
+}
+
 void CNote::SetNoteItem(NoteItem item, int nIndex, bool bNew)
 {
 	Ini ini(CConfig::NotesDir() + m_noteGroup.sName + _T(".ini"));

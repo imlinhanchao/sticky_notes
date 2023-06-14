@@ -13,6 +13,7 @@ public:
 
 	NoteGroup& GetNoteGroup();
 	void SetNoteGroup(NoteGroup group);
+	void SetNoteItems(vector<NoteItem> items);
 
 	void SetNoteItem(NoteItem item, int nIndex, bool bNew = false);
 	void UpdateRect(CRect rc);

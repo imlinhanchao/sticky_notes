@@ -408,6 +408,18 @@ HRESULT CNoteDlg::OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebM
 			}
 		}
 	}
+	else if (sEvent == _T("update_all")) {
+		if (!data.IsArray()) return E_NOTIMPL;
+		vector<NoteItem> vNotes;
+		for (int i = 0; i < data.Size(); i++) {
+			NoteItem item;
+			item.uId = data[i]["id"].GetUint64();
+			item.sContent = A2W(data[i]["content"].GetString());
+			item.bFinished = data[i]["finish"].GetBool();
+			vNotes.push_back(item);
+		}
+		m_Note.SetNoteItems(vNotes);
+	}
 	else if (sEvent == _T("remove")) {
 		vector<NoteItem> vNotes = m_Note.GetNoteGroup().vNotes;
 		NoteItem item;
