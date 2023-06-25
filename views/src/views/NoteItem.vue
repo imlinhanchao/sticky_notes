@@ -1,7 +1,7 @@
 <script setup lang="ts" name="Note">
 import { ref, watch } from 'vue'
 import { marked } from 'marked'
-import { send } from '@/utils/message';
+import { Note } from '@/utils';
 
 const props = defineProps<{
   modelValue: Note;
@@ -22,8 +22,8 @@ watch(() => data.value, (val) => {
   emit('update:modelValue', val)
 })
 
-watch(() => data.value.finish, (val) => {
-  send('update', data.value);
+watch(() => data.value.finish, () => {
+  Note.update(data.value);
 })
 
 marked.use({
@@ -39,7 +39,7 @@ function edit() {
 function update() {
   data.value.content = newContent.value;
   data.value.editable = false;
-  send('update', data.value);
+  Note.update(data.value);
 }
 
 function cancel() {
@@ -48,21 +48,6 @@ function cancel() {
 }
 
 </script>
-
-<script lang="ts">
-export class Note {
-  id: number = 0;
-  finish: boolean = false;
-  content: string = '';
-  editable?: boolean;
-
-  constructor(content='') {
-    this.id = new Date().getTime();
-    this.content = content;
-  }
-}
-</script>
-
 <template>
   <li 
     class="m-2 rounded border-2 cursor-pointer relative border-current note-item"

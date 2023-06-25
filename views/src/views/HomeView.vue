@@ -1,18 +1,14 @@
 <script setup lang="ts" name="Home">
 import { computed, onMounted, ref } from 'vue'
-import NoteItem, { Note } from './NoteItem.vue'
-import { listen, send } from '@/utils/message'
 import draggable from 'vuedraggable';
+import NoteItem from './NoteItem.vue'
+import { Note, App } from '@/utils';
 
 onMounted(() => {
-  listen((event, data) => {
-    switch (event) {
-      case 'data':
-        dataList.value = data
-        break
-    }
+  App.on('data', (data) => {
+    dataList.value = data
   })
-  send('listen')
+  App.init()
 })
 
 const dataList = ref<Note[]>([])
@@ -37,26 +33,25 @@ function add() {
   const data = new Note(content.value)
   dataList.value.push(data)
   content.value = ''
-  send('add', data)
+  Note.add(data)
 }
 
 function remove(item: Note) {
   const index = dataList.value.findIndex((a) => a.id == item.id)
   if (index > -1) {
     dataList.value.splice(index, 1)
-    send('remove', item)
+    Note.remove(item)
   }
 }
 
 function hide() {
-  send('hide')
+  App.hide()
 }
 
 function clear() {
-  send('clear')
+  Note.clear()
 }
 
-const drag = ref(false);
 function onSort({ moved }: any) {
   let { oldIndex, newIndex } = moved;
   oldIndex = dataList.value.findIndex((a) => a.id == sortData.value[oldIndex].id);
@@ -64,7 +59,7 @@ function onSort({ moved }: any) {
   const data = dataList.value[oldIndex];
   dataList.value.splice(oldIndex, 1);
   dataList.value.splice(newIndex, 0, data);
-  send('update_all', dataList.value)
+  Note.updateAll(dataList.value)
 }
 </script>
 

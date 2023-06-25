@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { isWebview, listen, send } from '@/utils/message'
+import { isWebview, Config, App } from '@/utils'
 import { useDark } from '@vueuse/core'
 
 const lock = ref(true)
@@ -24,16 +24,12 @@ useDark({
 
 const loading = ref(isWebview)
 onMounted(() => {
-  listen((event, data) => {
-    switch (event) {
-      case 'setting':
-        setting.value = data
-        loading.value = false
-        break
-      case 'lock':
-        lock.value = data
-        break
-    }
+  App.on('setting', (data) => {
+    setting.value = data;
+      loading.value = false;
+  });
+  App.on('lock', (data) => {
+    lock.value = data;
   })
 })
 
@@ -54,7 +50,7 @@ function colorPicker() {
   if (!setting.value.bgcolor) {
     setting.value.bgcolor = useDark().value ? '#0b0f14' : '#ffffff'
   }
-  send('bgcolor', setting.value.bgcolor)
+  Config.bgcolor(setting.value.bgcolor);
 }
 
 watch(
@@ -67,7 +63,7 @@ watch(
 </script>
 
 <template>
-  <el-container v-show="!loading" @mouseup="send('move', false)" direction="vertical" class="h-full">
+  <el-container v-show="!loading" @mouseup="App.move(false)" direction="vertical" class="h-full">
     <header
       :style="{ backgroundColor: setting.bgcolor }"
       class="header flex justify-between px-2 py-1 border-b bg-opacity-10 bg-white sticky top-0 z-10 border-current border-dashed"
@@ -75,7 +71,7 @@ watch(
       <span class="flex items-center space-x-2">
         <font-awesome-icon
           class="cursor-move"
-          @mousedown="send('move', true)"
+          @mousedown="App.move(true)"
           :icon="['fas', 'up-down-left-right']"
         />
       </span>
@@ -84,27 +80,27 @@ watch(
         <div
           :class="{ 'border-dashed': setting.opacityable }"
           class="w-4 h-4 cursor-pointer inline-block border-current border-2 rounded-full"
-          @click="send('opacityable', (setting.opacityable = !setting.opacityable))"
+          @click="Config.opacityable((setting.opacityable = !setting.opacityable))"
         ></div>
         <font-awesome-icon
           v-if="lock"
           :icon="['fas', 'lock']"
-          @click="send('lock', (lock = !lock))"
+          @click="Config.lock(lock = !lock)"
           class="cursor-pointer"
         />
         <font-awesome-icon
           v-else
           :icon="['fas', 'unlock']"
-          @click="send('lock', (lock = !lock))"
+          @click="Config.lock(lock = !lock)"
           class="cursor-pointer"
         />
         <font-awesome-icon
           class="origin-center cursor-pointer"
           :class="{ 'rotate-45': setting.topmost }"
           :icon="['fas', 'thumbtack']"
-          @click="send('top', (setting.topmost = !setting.topmost))"
+          @click="Config.top(setting.topmost = !setting.topmost)"
         />
-        <font-awesome-icon :icon="['fas', 'xmark']" @click="send('close')" class="cursor-pointer" />
+        <font-awesome-icon :icon="['fas', 'xmark']" @click="App.close()" class="cursor-pointer" />
       </span>
     </header>
     <RouterView />
