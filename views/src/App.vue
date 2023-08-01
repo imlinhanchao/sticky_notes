@@ -10,7 +10,8 @@ const setting = ref({
   bgcolor: defaultColor,
   topmost: true,
   opacityable: false,
-  opacity: 50
+  opacity: 50,
+  title:'',
 })
 
 useDark({
@@ -66,7 +67,7 @@ watch(
   <el-container v-show="!loading" @mouseup="App.move(false)" direction="vertical" class="h-full">
     <header
       :style="{ backgroundColor: setting.bgcolor }"
-      class="header flex justify-between px-2 py-1 border-b bg-opacity-10 bg-white sticky top-0 z-10 border-current border-dashed"
+      class="sticky top-0 z-10 flex justify-between px-2 py-1 bg-white border-b border-current border-dashed header bg-opacity-10"
     >
       <span class="flex items-center space-x-2">
         <font-awesome-icon
@@ -74,12 +75,13 @@ watch(
           @mousedown="App.move(true)"
           :icon="['fas', 'up-down-left-right']"
         />
+        <el-input v-model="setting.title" placeholder="Please input title" @change="(value: string)=>Config.title(value)"/>
       </span>
       <span class="flex items-center space-x-2">
         <el-color-picker size="small" v-model="setting.bgcolor" @change="colorPicker" />
         <div
           :class="{ 'border-dashed': setting.opacityable }"
-          class="w-4 h-4 cursor-pointer inline-block border-current border-2 rounded-full"
+          class="inline-block w-4 h-4 border-2 border-current rounded-full cursor-pointer"
           @click="Config.opacityable((setting.opacityable = !setting.opacityable))"
         ></div>
         <font-awesome-icon

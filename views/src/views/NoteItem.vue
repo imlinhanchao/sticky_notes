@@ -67,9 +67,9 @@ function cancel() {
         class="absolute z-10 hidden px-2 space-x-2 text-xs border-2 rounded-bl rounded-br toolbar right-2" 
         style="background-color: var(--background-color);bottom: -19px; border-top-color: var(--background-color);"
       >
-      <font-awesome-icon class="p-px rounded-sm cursor-pointer hover:bg-white/25 drag-handle" :icon="['fas', 'up-down-left-right']"/>
-        <font-awesome-icon class="p-px rounded-sm cursor-pointer hover:bg-white/25" :icon="['far', 'pen-to-square']" @click.stop="edit"/>
-        <font-awesome-icon class="p-px rounded-sm cursor-pointer hover:bg-white/25" :icon="['far', 'trash-can']" @click.stop="emit('remove')"/>
+      <font-awesome-icon class="p-1 rounded-sm cursor-pointer hover:bg-white/25 drag-handle" :icon="['fas', 'up-down-left-right']"/>
+        <font-awesome-icon class="p-1 rounded-sm cursor-pointer hover:bg-white/25" :icon="['far', 'pen-to-square']" @click.stop="edit"/>
+        <font-awesome-icon class="p-1 rounded-sm cursor-pointer hover:bg-white/25" :icon="['far', 'trash-can']" @click.stop="emit('remove')"/>
       </span>
     </div>
     <template v-else>
