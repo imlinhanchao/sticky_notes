@@ -50,7 +50,7 @@ function cancel() {
 </script>
 <template>
   <li 
-    class="m-2 rounded border-2 cursor-pointer relative border-current note-item"
+    class="relative m-2 border-2 border-current rounded cursor-pointer note-item"
     :class="{ 
       'opacity-50': data.finish, 
       'px-2 py-1': !data.editable
@@ -64,12 +64,12 @@ function cancel() {
       <del class="markdown-body" v-if="data.finish" v-html="marked(data.content)"></del>
       <span class="markdown-body" v-else  v-html="marked(data.content)"></span>
       <span 
-        class="toolbar absolute right-2 space-x-2 text-xs px-2 z-10 rounded-br rounded-bl border-2 hidden" 
+        class="absolute z-10 hidden px-2 space-x-2 text-xs border-2 rounded-bl rounded-br toolbar right-2" 
         style="background-color: var(--background-color);bottom: -19px; border-top-color: var(--background-color);"
       >
-      <font-awesome-icon class="drag-handle cursor-move" :icon="['fas', 'up-down-left-right']"/>
-        <font-awesome-icon class="cursor-pointer" :icon="['far', 'pen-to-square']" @click.stop="edit"/>
-        <font-awesome-icon class="cursor-pointer" :icon="['far', 'trash-can']" @click.stop="emit('remove')"/>
+      <font-awesome-icon class="p-px rounded-sm cursor-pointer hover:bg-white/25 drag-handle" :icon="['fas', 'up-down-left-right']"/>
+        <font-awesome-icon class="p-px rounded-sm cursor-pointer hover:bg-white/25" :icon="['far', 'pen-to-square']" @click.stop="edit"/>
+        <font-awesome-icon class="p-px rounded-sm cursor-pointer hover:bg-white/25" :icon="['far', 'trash-can']" @click.stop="emit('remove')"/>
       </span>
     </div>
     <template v-else>
@@ -83,7 +83,7 @@ function cancel() {
           @keydown.esc="cancel"
           v-model="newContent"
         />
-        <el-button link class="absolute top-1 left-1 text-lg" @click.stop="update">
+        <el-button link class="absolute text-lg top-1 left-1" @click.stop="update">
           <font-awesome-icon :icon="['fas', 'check']" />
         </el-button>
     </template>
