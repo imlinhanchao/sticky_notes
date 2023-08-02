@@ -16,6 +16,7 @@ typedef struct _NoteItem
 typedef struct NoteGroup
 {
 	CString sName;
+	CString sTitle;
 	CRect rect;
 	COLORREF bgColor;
 	int nOpacity;

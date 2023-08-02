@@ -36,3 +36,4 @@ obj/
 _ReSharper*/
 .vs/
 packages/
+output/

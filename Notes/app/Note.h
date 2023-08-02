@@ -21,6 +21,7 @@ public:
 	void UpdateOpacityAble(bool bOpacityAble);
 	void UpdateTopMost(bool bTopMost);
 	void UpdateBgColor(COLORREF clrBg);
+	void UpdateTitle(CString sTitle);
 	void Hide();
 	void Clear();
 

@@ -116,6 +116,14 @@ void CNote::UpdateBgColor(COLORREF clrBg)
 	ini.Write(_T("Group"), _T("BgColor"), Cvt::ToString(clrBg));
 }
 
+void CNote::UpdateTitle(CString sTitle)
+{
+	m_noteGroup.sTitle = sTitle;
+	Ini ini(CConfig::NotesDir() + m_noteGroup.sName + _T(".ini"));
+
+	ini.Write(_T("Group"), _T("Title"), sTitle);
+}
+
 void CNote::Hide()
 {
 	m_noteGroup.bVisible = true;

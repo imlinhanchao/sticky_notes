@@ -236,11 +236,13 @@ void CNoteDlg::SendNoteSetting()
 	USES_CONVERSION;
 	Document data;
 	data.SetObject();
-	Value bgColor, opacity, topmost, opacityable;
+	Value bgColor, opacity, topmost, opacityable, title;
+	title.SetString(W2A(m_Note.GetNoteGroup().sTitle), data.GetAllocator());
 	bgColor.SetString(T2A(m_Note.GetNoteGroup().toHex()), data.GetAllocator());
 	opacity.SetInt(m_Note.GetNoteGroup().nOpacity);
 	topmost.SetBool(m_Note.GetNoteGroup().bTopMost);
 	opacityable.SetBool(m_Note.GetNoteGroup().bOpacity);
+	data.AddMember("title", title, data.GetAllocator());
 	data.AddMember("bgcolor", bgColor, data.GetAllocator());
 	data.AddMember("opacity", opacity, data.GetAllocator());
 	data.AddMember("opacityable", opacityable, data.GetAllocator());
@@ -376,6 +378,10 @@ HRESULT CNoteDlg::OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebM
 	else if (sEvent == _T("bgcolor")) {
 		CString sHex = data.IsNull() ? _T("#0b0f14") : A2W(data.GetString());
 		m_Note.UpdateBgColor(Cvt::ToColor(sHex));
+	}
+	else if (sEvent == _T("title")) {
+		CString sTitle = data.IsNull() ? _T("") : A2W(data.GetString());
+		m_Note.UpdateTitle(sTitle);
 	}
 	else if (sEvent == _T("close")) {
 		CDialogEx::OnCancel();

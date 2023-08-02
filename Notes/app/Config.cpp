@@ -41,6 +41,7 @@ bool CConfig::GetNoteGroup(CString sName, NoteGroup& group)
 	ini.Read(_T("Group"), _T("Visible"), group.bVisible);
 	ini.Read(_T("Group"), _T("TopMost"), group.bTopMost);
 	ini.Read(_T("Group"), _T("BgColor"), group.bgColor);
+	ini.Read(_T("Group"), _T("Title"), group.sTitle);
 	vector<CString> lstRect = Cvt::SplitString(sRect, _T(","));
 	group.rect = CRect(_ttoi(lstRect[0]), _ttoi(lstRect[1]), _ttoi(lstRect[2]), _ttoi(lstRect[3]));
 
@@ -73,6 +74,7 @@ void CConfig::SetNoteGroup( NoteGroup group)
 	ini.Write(_T("Group"), _T("TopMost"), group.bTopMost);
 	ini.Write(_T("Group"), _T("Rect"), Cvt::ToString(group.rect.left) + _T(",") + Cvt::ToString(group.rect.top) + _T(",") + Cvt::ToString(group.rect.right) + _T(",") + Cvt::ToString(group.rect.bottom));
 	ini.Write(_T("Group"), _T("BgColor"), group.bgColor);
+	ini.Write(_T("Group"), _T("Title"), group.sTitle);
 
 	for (int i = 0; i < group.vNotes.size(); i++) {
 		NoteItem item = group.vNotes.at(i);
