@@ -65,6 +65,10 @@ export class Config  {
   static top (value: boolean) {
     send('top', value)
   }
+
+  static title(value:string) {
+    send('title', value)
+  }
 }
 
 export class Note {
