@@ -55,9 +55,7 @@ function cancel() {
   <div class="absolute w-full h-full border-2 border-current rounded"   :class="{ 
        'opacity-50': data.finish,
       'px-2 py-1': !data.editable
-    }">
-
-  </div>
+    }"/>
     <div @click="data.finish = !data.finish" v-if="!data.editable" class="border-inherit" :class="{ 
       'px-2 py-1': !data.editable
     }">
@@ -73,13 +71,13 @@ function cancel() {
         class="absolute z-10 hidden text-xs toolbar right-2 bottom-[-15px]" 
         style="background-color: var(--background-color); border-top-color: var(--background-color);"
       >
-      <div class="absolute w-full h-full border-2 rounded-bl rounded-br toolbar" style="border-top-color: var(--background-color);"  :class="{ 'opacity-50': data.finish}"/>
-      <div class="px-2 space-x-2">
+      <div class="absolute w-full h-full border-2 rounded-bl rounded-br pointer-events-none toolbar" style="border-top-color: var(--background-color);"  :class="{ 'opacity-50': data.finish}"/>
+      <div class="z-10 px-2 space-x-2">
         <font-awesome-icon class="p-1 rounded-sm cursor-pointer hover:bg-white/25 drag-handle" :class="{ 'opacity-50': data.finish}" :icon="['fas', 'up-down-left-right']"/>
         <font-awesome-icon class="p-1 rounded-sm cursor-pointer hover:bg-white/25" :class="{ 'opacity-50': data.finish}" :icon="['far', 'pen-to-square']" @click.stop="edit"/>
         <font-awesome-icon class="p-1 rounded-sm cursor-pointer hover:bg-white/25" :class="{ 'opacity-50': data.finish}" :icon="['far', 'trash-can']" @click.stop="emit('remove')"/>
       </div>
-
+      
       </span>
     </div>
     <template v-else>
