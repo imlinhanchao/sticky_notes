@@ -238,7 +238,7 @@ public:
 	 * @param sFormat A Callback used to check file. It will be skip file/folder when return false
 	 * @return CString The final path
 	 */
-	static vector<CString> GetFileList(CString sDirectory, CString sFormat=_T("*"));
+	static vector<CString> GetFileList(CString sDirectory, CString sFormat=_T("*"), bool bOnlyDirectory = false);
 
 	/*!
 	 * @brief Create

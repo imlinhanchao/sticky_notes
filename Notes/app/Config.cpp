@@ -109,10 +109,14 @@ void CConfig::LoadSetting(Setting& setting)
 	ini.Read(_T("HotKey"), _T("Edit"), setting.dwEditHotKey);
 	ini.Read(_T("HotKey"), _T("New"), setting.dwNewHotKey);
 	ini.Read(_T("HotKey"), _T("UnActive"), setting.dwUnActiveHotKey);
+	ini.Read(_T("HotKey"), _T("ActiveAll"), setting.dwActiveAllHotKey);
 	ini.Read(_T("Setting"), _T("NoteDir"), setting.sNoteDir);
+	ini.Read(_T("Setting"), _T("Theme"), setting.sTheme);
 	ini.Read(_T("Setting"), _T("AutoRun"), setting.bAutoRun);
 	ini.Read(_T("Setting"), _T("CustomWebview2"), setting.bCustomWebview2);
 	ini.Read(_T("Setting"), _T("Webview2Path"), setting.sWebview2Path);
+
+	if (setting.sTheme.IsEmpty()) setting.sTheme = _T("Default");
 
 	m_setting = setting;
 }
@@ -127,7 +131,9 @@ void CConfig::SaveSetting(Setting setting)
 	ini.Write(_T("HotKey"), _T("Edit"), setting.dwEditHotKey);
 	ini.Write(_T("HotKey"), _T("New"), setting.dwNewHotKey);
 	ini.Write(_T("HotKey"), _T("UnActive"), setting.dwUnActiveHotKey);
+	ini.Write(_T("HotKey"), _T("ActiveAll"), setting.dwActiveAllHotKey);
 	ini.Write(_T("Setting"), _T("NoteDir"), setting.sNoteDir);
+	ini.Write(_T("Setting"), _T("Theme"), setting.sTheme);
 	ini.Write(_T("Setting"), _T("AutoRun"), setting.bAutoRun);
 	ini.Write(_T("Setting"), _T("CustomWebview2"), setting.bCustomWebview2);
 	ini.Write(_T("Setting"), _T("Webview2Path"), setting.sWebview2Path);
@@ -138,4 +144,15 @@ void CConfig::SaveSetting(Setting setting)
 Setting& CConfig::GetCurrentSetting()
 {
 	return m_setting;
+}
+
+void CConfig::SearchThemes(vector<CString>& lstName)
+{
+	vector<CString> lstConfig = Path::GetFileList(Path::GetCurDirectory(_T("themes")), _T("*"), true);
+	for (int i = 0; i < lstConfig.size(); i++)
+	{
+		if (!Path::Exists(_PATH_JOIN(lstConfig[i], _T("index.html")))) continue;
+		CString sNote = Path::GetFileName(lstConfig[i]);
+		lstName.push_back(sNote);
+	}
 }

@@ -307,7 +307,7 @@ vector<CString> Path::Traversing( CString sDirectory, FILITER filter/*=NULL*/ )
 	return lstPath;
 }
 
-vector<CString> Path::GetFileList( CString sDirectory, CString sFormat/*=_T("*")*/ )
+vector<CString> Path::GetFileList( CString sDirectory, CString sFormat/*=_T("*")*/, bool bOnlyDirectory/* = false*/)
 {
 	vector<CString> lstPath;
 
@@ -328,6 +328,7 @@ vector<CString> Path::GetFileList( CString sDirectory, CString sFormat/*=_T("*")
 
 			SetFileAttributes(ff.GetFilePath(), FILE_ATTRIBUTE_NORMAL);
 			CString sPath = ff.GetFilePath();
+			if (bOnlyDirectory && !IsDirectory(sPath)) continue;
 			lstPath.push_back(sPath);
 		}     
 		ff.Close();

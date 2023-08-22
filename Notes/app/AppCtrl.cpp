@@ -53,11 +53,11 @@ bool CAppCtrl::CheckEdit()
 	return false;
 }
 
-void CAppCtrl::MouseThrough()
+void CAppCtrl::MouseThrough(bool bThrough)
 {
 	for (int i = 0; i < m_NoteListDlg.size(); i++)
 	{
-		m_NoteListDlg[i]->SetMouseThrough(true);
+		m_NoteListDlg[i]->SetMouseThrough(bThrough);
 	}
 }
 

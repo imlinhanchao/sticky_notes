@@ -12,6 +12,8 @@ public:
 	static void SaveSetting(Setting setting);
 	static Setting& GetCurrentSetting();
 	
+	static void SearchThemes(vector<CString>& lstName);
+
 	static CString NotesDir();
 
 private:

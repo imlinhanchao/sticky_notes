@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "Notes.h"
 #include "NoteDlg.h"
+#include "NotesDlg.h"
 #include "afxdialogex.h"
 #include <functional>
 #include <string>
@@ -203,7 +204,6 @@ void CNoteDlg::SetMouseThrough(bool bThought)
 	else dwNewLong &= ~(WS_EX_TRANSPARENT);
 	SetWindowLong(m_hWnd, GWL_EXSTYLE, dwNewLong);
 	if (m_webView != NULL) SendMouseThrough();
-	//if (IsWindowVisible()) SetWindownAlpha(m_Note.GetNoteGroup().nOpacity);
 }
 
 bool CNoteDlg::IsMouseThrough() {
@@ -262,19 +262,25 @@ void CNoteDlg::InitWebView()
 {
 	const wchar_t* browserExecutableFolder = nullptr;
 	CString sCustomPath = Path::GetDirectory(CConfig::GetCurrentSetting().sWebview2Path);
-	if (CConfig::GetCurrentSetting().bCustomWebview2 && !CConfig::GetCurrentSetting().sWebview2Path.IsEmpty()) {
+	if (CConfig::GetCurrentSetting().bCustomWebview2 && !sCustomPath.IsEmpty()) {
 		browserExecutableFolder = sCustomPath.GetBuffer();
 	}
 	auto result = CreateCoreWebView2EnvironmentWithOptions(browserExecutableFolder, nullptr, nullptr,
 		Microsoft::WRL::Callback<ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler>(
 			this, &CNoteDlg::OnCreateEnvironmentCompleted).Get());
-	if (CConfig::GetCurrentSetting().bCustomWebview2 && !CConfig::GetCurrentSetting().sWebview2Path.IsEmpty()) {
+	if (CConfig::GetCurrentSetting().bCustomWebview2 && !sCustomPath.IsEmpty()) {
 		sCustomPath.ReleaseBuffer();
 	}
 }
 
 HRESULT CNoteDlg::OnCreateEnvironmentCompleted(HRESULT result, ICoreWebView2Environment* environment)
 {
+	if (result != S_OK) {
+		CNotesDlg::m_bIsNoticeRuntime = true;
+		if(IDYES == MessageBox(_T("未检测到 Edge Webview2，请点击【是】打开 https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/#download-section 下载安装！"), NULL, MB_YESNO))
+			ShellExecute(NULL, _T("open"), _T("https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/#download-section"), NULL, NULL, SW_SHOW);
+		return result;
+	}
 	m_webViewEnvironment = environment;
 	m_webViewEnvironment->CreateCoreWebView2Controller(this->GetSafeHwnd(), 
 		Microsoft::WRL::Callback<ICoreWebView2CreateCoreWebView2ControllerCompletedHandler>(
@@ -307,7 +313,9 @@ HRESULT CNoteDlg::OnCreateCoreWebView2ControllerCompleted(HRESULT result, ICoreW
 #ifdef _DEBUG_HTTP
 	CString sUrl = _T("http://127.0.0.1:5173");
 #else
-	CString sUrl = CString(_T("file:///")) + Path::GetCurDirectory(_T("views/index.html"));
+	CString sTheme = Path::GetCurDirectory(_T("themes/") + CConfig::GetCurrentSetting().sTheme + _T("index.html"));
+	if (!Path::Exists(sTheme)) sTheme = Path::GetCurDirectory(_T("themes/Default/index.html"));
+	CString sUrl = CString(_T("file:///")) + sTheme;
 #endif // _DEBUG_HTTP
 	sUrl.Replace(_T("\\"), _T("/"));
 	m_webView->Navigate(sUrl.GetBuffer());

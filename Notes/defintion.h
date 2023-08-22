@@ -48,8 +48,10 @@ typedef struct _Setting
 	DWORD dwEditHotKey;
 	DWORD dwNewHotKey;
 	DWORD dwUnActiveHotKey;
+	DWORD dwActiveAllHotKey;
 	CString sNoteDir;
 	CString sWebview2Path;
+	CString sTheme;
 
 	_Setting() {
 		bCustomWebview2 = false;
@@ -57,6 +59,8 @@ typedef struct _Setting
 		dwEditHotKey = ((CHotKeyEdit::WIN | CHotKeyEdit::SHIFT) << 8) | VK_F7;
 		dwNewHotKey = ((CHotKeyEdit::WIN | CHotKeyEdit::SHIFT) << 8) | VK_F8;
 		dwUnActiveHotKey = ((CHotKeyEdit::WIN | CHotKeyEdit::SHIFT) << 8) | VK_F9;
+		dwActiveAllHotKey = ((CHotKeyEdit::WIN | CHotKeyEdit::SHIFT) << 8) | VK_F10;
 		sNoteDir = Path::GetCurDirectory(_T("notes\\"));
+		sTheme = _T("Default");
 	}
 }Setting, *PSetting;

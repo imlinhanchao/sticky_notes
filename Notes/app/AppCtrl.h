@@ -10,7 +10,7 @@ public:
 	void Init();
 	void New(CString sName = _T(""));
 	bool CheckEdit();
-	void MouseThrough();
+	void MouseThrough(bool bThrough=true);
 	void Visible(bool bShow);
 
 private:

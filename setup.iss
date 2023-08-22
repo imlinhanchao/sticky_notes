@@ -40,7 +40,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "Release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Release\WebView2Loader.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "views\dist\*"; DestDir: "{app}\views"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "views\dist\*"; DestDir: "{app}\themes\Default"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -53,4 +53,3 @@ Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChang
 [UninstallDelete] 
 Type: files; Name: "{userstartup}\setting.ini"   
 Type: filesandordirs; Name: "{app}\Notes.exe.WebView2"  
-Type: filesandordirs; Name: "{app}\notes"

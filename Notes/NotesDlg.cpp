@@ -13,6 +13,8 @@
 #endif
 
 CAppCtrl CNotesDlg::m_ctrl;
+bool CNotesDlg::m_bIsNoticeRuntime = false;
+
 // CAboutDlg dialog used for App About
 
 class CAboutDlg : public CDialogEx
@@ -61,6 +63,7 @@ void CNotesDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_HKEY_ACTIVE, m_ActiveHKey);
 	DDX_Control(pDX, IDC_HKEY_NEW, m_NewHKey);
 	DDX_Control(pDX, IDC_HKEY_UNACTIVE, m_UnActiveHKey);
+	DDX_Control(pDX, IDC_HKEY_ACTIVEALL, m_ActiveAllHKey);
 }
 
 BEGIN_MESSAGE_MAP(CNotesDlg, CDialogEx)
@@ -207,6 +210,14 @@ void CNotesDlg::Init()
 {
 	CLogApp::Init(LOG_ALL);
 
+	vector<CString> lstTheme;
+	CConfig::SearchThemes(lstTheme);
+	((CComboBox*)GetDlgItem(IDC_CBB_THEME))->ResetContent();
+	for (auto theme = lstTheme.begin(); theme != lstTheme.end(); theme++) {
+		((CComboBox*)GetDlgItem(IDC_CBB_THEME))->AddString(theme->GetBuffer());
+		theme->ReleaseBuffer();
+	}
+
 	CConfig::LoadSetting(m_setting);
 	CConfig::SaveSetting(m_setting);
 	InitSetting(m_setting);
@@ -228,9 +239,10 @@ void CNotesDlg::InitSetting(Setting setting)
 	m_ActiveHKey.SetHotKey(setting.dwEditHotKey);
 	m_NewHKey.SetHotKey(setting.dwNewHotKey);
 	m_UnActiveHKey.SetHotKey(setting.dwUnActiveHotKey);
+	m_ActiveAllHKey.SetHotKey(setting.dwActiveAllHotKey);
 	SetDlgItemText(IDC_EDIT_NOTE, setting.sNoteDir);
 	SetDlgItemText(IDC_EDIT_RUNTIME, setting.sWebview2Path);
-
+	((CComboBox*)GetDlgItem(IDC_CBB_THEME))->SelectString(0, setting.sTheme);
 }
 
 Setting CNotesDlg::ReadSetting()
@@ -241,8 +253,10 @@ Setting CNotesDlg::ReadSetting()
 	setting.dwEditHotKey = m_ActiveHKey.GetHotKey();
 	setting.dwNewHotKey = m_NewHKey.GetHotKey();
 	setting.dwUnActiveHotKey = m_UnActiveHKey.GetHotKey();
+	setting.dwActiveAllHotKey = m_ActiveAllHKey.GetHotKey();
 	GetDlgItemText(IDC_EDIT_NOTE, setting.sNoteDir);
 	GetDlgItemText(IDC_EDIT_RUNTIME, setting.sWebview2Path);
+	GetDlgItemText(IDC_CBB_THEME, setting.sTheme);
 	return setting;
 }
 
@@ -251,6 +265,10 @@ void CNotesDlg::SetHotKey(Setting setting)
 	CHotKey::SetWithCall(setting.dwUnActiveHotKey, [](LPVOID lpParam) -> void {
 		CNotesDlg* pMain = (CNotesDlg*)lpParam;
 		pMain->m_ctrl.MouseThrough();
+		}, this, GetSafeHwnd());
+	CHotKey::SetWithCall(setting.dwActiveAllHotKey, [](LPVOID lpParam) -> void {
+		CNotesDlg* pMain = (CNotesDlg*)lpParam;
+		pMain->m_ctrl.MouseThrough(false);
 		}, this, GetSafeHwnd());
 	CHotKey::SetWithCall(setting.dwEditHotKey, [](LPVOID lpParam) -> void {
 		CNotesDlg* pMain = (CNotesDlg*)lpParam;
@@ -266,6 +284,7 @@ void CNotesDlg::SetHotKey(Setting setting)
 void CNotesDlg::ClearHotKey(Setting setting)
 {
 	CHotKey::RemoveHotKey(setting.dwUnActiveHotKey);
+	CHotKey::RemoveHotKey(setting.dwActiveAllHotKey);
 	CHotKey::RemoveHotKey(setting.dwEditHotKey);
 	CHotKey::RemoveHotKey(setting.dwNewHotKey);
 }

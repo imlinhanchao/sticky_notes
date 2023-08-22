@@ -53,12 +53,14 @@ protected:
 
 	CHotKeyEdit m_ActiveHKey;
 	CHotKeyEdit m_UnActiveHKey;
+	CHotKeyEdit m_ActiveAllHKey;
 	CHotKeyEdit m_NewHKey;
 	CMenu m_MenuTray;
 	NOTIFYICONDATA m_nid;
 
 	HANDLE m_Instance;
 public:
+	static bool m_bIsNoticeRuntime;
 	static CAppCtrl m_ctrl;
 	Setting m_setting;
 	afx_msg void OnDestroy();
