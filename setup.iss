@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Sticky Note"
-#define MyAppVersion "1.0.3"
+#define MyAppVersion "1.0.4"
 #define MyAppPublisher "Hancel.Lin"
 #define MyAppURL "http://hancel.org/"
 #define MyAppExeName "Notes.exe"
@@ -25,7 +25,7 @@ LicenseFile=LICENSE
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=output
-OutputBaseFilename=sticky_notes_setup_{#MyAppVersion}
+OutputBaseFilename=Sticky.Notes.{#MyAppVersion}
 SetupIconFile=setup.ico
 Compression=lzma
 SolidCompression=yes
