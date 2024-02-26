@@ -31,7 +31,7 @@ const content = ref('')
 function add() {
   if (!content.value) return
   const data = new Note(content.value)
-  dataList.value.push(data)
+  dataList.value.unshift(data)
   content.value = ''
   Note.add(data)
 }
@@ -65,6 +65,22 @@ function onSort({ moved }: any) {
 
 <template>
   <el-main class="h-full">
+    <ul>
+      <li class="m-2 rounded border-2 cursor-pointer relative border-current">
+        <el-input
+          type="textarea"
+          :autosize="{
+            minRows: 1
+          }"
+          class="w-full"
+          @keydown.enter.ctrl.exact="add"
+          v-model="content"
+        />
+        <el-button @click="add" link class="absolute top-1 left-1 text-lg">
+          <font-awesome-icon :icon="['fas', 'plus']" />
+        </el-button>
+      </li>
+    </ul>
     <draggable 
       class="my-2"
       :model-value="sortData"
@@ -84,22 +100,6 @@ function onSort({ moved }: any) {
         />
       </template>
     </draggable>
-    <ul>
-      <li class="m-2 rounded border-2 cursor-pointer relative border-current">
-        <el-input
-          type="textarea"
-          :autosize="{
-            minRows: 1
-          }"
-          class="w-full"
-          @keydown.enter.ctrl.exact="add"
-          v-model="content"
-        />
-        <el-button @click="add" link class="absolute top-1 left-1 text-lg">
-          <font-awesome-icon :icon="['fas', 'plus']" />
-        </el-button>
-      </li>
-    </ul>
   </el-main>
   <el-footer class="flex mr-3 items-center justify-end space-x-3">
     <span>

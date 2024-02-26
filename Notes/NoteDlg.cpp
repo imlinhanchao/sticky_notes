@@ -403,7 +403,7 @@ HRESULT CNoteDlg::OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebM
 		if (!data.HasMember("finish")) return E_NOTIMPL;
 		item.bFinished = data["finish"].GetBool();
 		m_Note.SetNoteItem(item, m_Note.GetNoteGroup().vNotes.size(), true);
-		m_Note.GetNoteGroup().vNotes.push_back(item);
+		m_Note.GetNoteGroup().vNotes.insert(m_Note.GetNoteGroup().vNotes.begin(), item);
 	}
 	else if (sEvent == _T("update")) {
 		vector<NoteItem> vNotes = m_Note.GetNoteGroup().vNotes;
