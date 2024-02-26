@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Sticky Note"
-#define MyAppVersion "1.0.4"
+#define MyAppVersion "1.0.5"
 #define MyAppPublisher "Hancel.Lin"
 #define MyAppURL "https://github.com/imlinhanchao/sticky_notes"
 #define MyAppExeName "Notes.exe"
