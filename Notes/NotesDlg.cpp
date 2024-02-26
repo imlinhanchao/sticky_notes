@@ -81,6 +81,8 @@ BEGIN_MESSAGE_MAP(CNotesDlg, CDialogEx)
 	ON_BN_CLICKED(IDOK, &CNotesDlg::OnBnClickedOk)
 	ON_WM_DESTROY()
 	ON_BN_CLICKED(IDC_BTN_BROWSE_RUNTIME, &CNotesDlg::OnBnClickedBtnBrowseRuntime)
+	ON_COMMAND(ID_MENU_THROUGHALLON, &CNotesDlg::OnMenuThroughAllOn)
+	ON_COMMAND(ID_MENU_THROUGHALLOFF, &CNotesDlg::OnMenuThroughAllOff)
 END_MESSAGE_MAP()
 
 
@@ -446,4 +448,16 @@ void CNotesDlg::OnBnClickedBtnBrowseRuntime()
 	CString sPath = Path::Browse(_T("Webview2 File|msedgewebview2.exe;||"), _T(""), TRUE, _T(""));
 	if (sPath.IsEmpty()) return;
 	SetDlgItemText(IDC_EDIT_RUNTIME, sPath);
+}
+
+
+void CNotesDlg::OnMenuThroughAllOn()
+{
+	m_ctrl.MouseThrough();
+}
+
+
+void CNotesDlg::OnMenuThroughAllOff()
+{
+	m_ctrl.MouseThrough(false);
 }

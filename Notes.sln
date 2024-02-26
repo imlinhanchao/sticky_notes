@@ -8,16 +8,25 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
 		DebugHttp|Win32 = DebugHttp|Win32
+		DebugHttp|x64 = DebugHttp|x64
 		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6769A8F9-CF54-47BB-8262-FE3D739E79AB}.Debug|Win32.ActiveCfg = Debug|Win32
 		{6769A8F9-CF54-47BB-8262-FE3D739E79AB}.Debug|Win32.Build.0 = Debug|Win32
+		{6769A8F9-CF54-47BB-8262-FE3D739E79AB}.Debug|x64.ActiveCfg = Debug|x64
+		{6769A8F9-CF54-47BB-8262-FE3D739E79AB}.Debug|x64.Build.0 = Debug|x64
 		{6769A8F9-CF54-47BB-8262-FE3D739E79AB}.DebugHttp|Win32.ActiveCfg = DebugHttp|Win32
 		{6769A8F9-CF54-47BB-8262-FE3D739E79AB}.DebugHttp|Win32.Build.0 = DebugHttp|Win32
+		{6769A8F9-CF54-47BB-8262-FE3D739E79AB}.DebugHttp|x64.ActiveCfg = DebugHttp|x64
+		{6769A8F9-CF54-47BB-8262-FE3D739E79AB}.DebugHttp|x64.Build.0 = DebugHttp|x64
 		{6769A8F9-CF54-47BB-8262-FE3D739E79AB}.Release|Win32.ActiveCfg = Release|Win32
 		{6769A8F9-CF54-47BB-8262-FE3D739E79AB}.Release|Win32.Build.0 = Release|Win32
+		{6769A8F9-CF54-47BB-8262-FE3D739E79AB}.Release|x64.ActiveCfg = Release|x64
+		{6769A8F9-CF54-47BB-8262-FE3D739E79AB}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

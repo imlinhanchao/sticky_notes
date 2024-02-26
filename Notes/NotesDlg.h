@@ -65,4 +65,6 @@ public:
 	Setting m_setting;
 	afx_msg void OnDestroy();
 	afx_msg void OnBnClickedBtnBrowseRuntime();
+	afx_msg void OnMenuThroughAllOn();
+	afx_msg void OnMenuThroughAllOff();
 };

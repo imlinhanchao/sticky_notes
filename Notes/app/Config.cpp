@@ -66,7 +66,7 @@ void CConfig::SetNoteGroup( NoteGroup group)
 	CLogApp::Write(_T("SetNoteGroup: ") + sConfigFile);
 
 	Ini ini(sConfigFile);
-	ini.Write(_T("Group"), _T("Count"), group.vNotes.size());
+	ini.Write(_T("Group"), _T("Count"), (int)group.vNotes.size());
 	ini.Write(_T("Group"), _T("Name"), group.sName);
 	ini.Write(_T("Group"), _T("Opacity"), group.nOpacity);
 	ini.Write(_T("Group"), _T("OpacityAble"), group.bOpacity);
