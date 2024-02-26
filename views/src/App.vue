@@ -70,39 +70,51 @@ watch(
       class="sticky top-0 z-10 flex justify-between px-2 py-1 bg-white border-b border-current border-dashed header bg-opacity-10"
     >
       <span class="flex items-center space-x-2 w-full">
-        <font-awesome-icon
-          class="cursor-move"
-          @mousedown="App.move(true)"
-          :icon="['fas', 'up-down-left-right']"
-        />
+        <el-tooltip placement="bottom" content="移动便签">
+          <font-awesome-icon
+            class="cursor-move"
+            @mousedown="App.move(true)"
+            :icon="['fas', 'up-down-left-right']"
+          />
+        </el-tooltip>
         <el-input class="no-border" v-model="setting.title" placeholder="标题" @change="(value: string)=>Config.title(value)"/>
       </span>
       <span class="flex items-center space-x-2">
-        <el-color-picker size="small" v-model="setting.bgcolor" @change="colorPicker" />
-        <div
-          :class="{ 'border-dashed': setting.opacityable }"
-          class="inline-block w-4 h-4 border-2 border-current rounded-full cursor-pointer"
-          @click="Config.opacityable((setting.opacityable = !setting.opacityable))"
-        ></div>
-        <font-awesome-icon
-          v-if="lock"
-          :icon="['fas', 'lock']"
-          @click="Config.lock(lock = !lock)"
-          class="cursor-pointer"
-        />
-        <font-awesome-icon
-          v-else
-          :icon="['fas', 'unlock']"
-          @click="Config.lock(lock = !lock)"
-          class="cursor-pointer"
-        />
-        <font-awesome-icon
-          class="origin-center cursor-pointer"
-          :class="{ 'rotate-45': setting.topmost }"
-          :icon="['fas', 'thumbtack']"
-          @click="Config.top(setting.topmost = !setting.topmost)"
-        />
-        <font-awesome-icon :icon="['fas', 'xmark']" @click="App.close()" class="cursor-pointer" />
+        <el-tooltip placement="bottom" content="更改主题色">
+          <span><el-color-picker size="small" v-model="setting.bgcolor" @change="colorPicker" /></span>
+        </el-tooltip>
+        <el-tooltip placement="bottom" content="半透明便签">
+          <div
+            :class="{ 'border-dashed': setting.opacityable }"
+            class="inline-block w-4 h-4 border-2 border-current rounded-full cursor-pointer"
+            @click="Config.opacityable((setting.opacityable = !setting.opacityable))"
+          ></div>
+        </el-tooltip>
+        <el-tooltip v-if="lock" placement="bottom" content="开启鼠标穿透">
+          <font-awesome-icon
+            :icon="['fas', 'lock']"
+            @click="Config.lock(lock = !lock)"
+            class="cursor-pointer"
+          />
+        </el-tooltip>
+        <el-tooltip v-else placement="bottom" content="关闭鼠标穿透">
+          <font-awesome-icon
+            :icon="['fas', 'unlock']"
+            @click="Config.lock(lock = !lock)"
+            class="cursor-pointer"
+          />
+        </el-tooltip>
+        <el-tooltip placement="bottom" content="置顶便签">
+          <font-awesome-icon
+            class="origin-center cursor-pointer"
+            :class="{ 'rotate-45': setting.topmost }"
+            :icon="['fas', 'thumbtack']"
+            @click="Config.top(setting.topmost = !setting.topmost)"
+          />
+        </el-tooltip>
+        <el-tooltip placement="bottom" content="暂时关闭便签">
+          <font-awesome-icon :icon="['fas', 'xmark']" @click="App.close()" class="cursor-pointer" />
+        </el-tooltip>
       </span>
     </header>
     <RouterView />

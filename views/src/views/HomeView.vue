@@ -103,7 +103,7 @@ function onSort({ moved }: any) {
   </el-main>
   <el-footer class="flex mr-3 items-center justify-end space-x-3">
     <span>
-      <el-tooltip content="隐藏显示" placement="top">
+      <el-tooltip content="隐藏便签(可通过 Show All 菜单重新显示)" placement="top">
         <el-button link size="small" class="w-full" type="primary" @click="hide">
           <font-awesome-icon :icon="['fas', 'eye-slash']" />
         </el-button>
@@ -112,7 +112,7 @@ function onSort({ moved }: any) {
     <el-popconfirm title="删除后将无法找回，是否确认完全删除?" @confirm="clear">
       <template #reference>
         <span>
-          <el-tooltip content="完全删除" placement="top">
+          <el-tooltip content="删除便签" placement="top">
             <el-button link size="small"  class="w-full" type="danger">
               <font-awesome-icon :icon="['fas', 'trash']" />
             </el-button>
