@@ -42,6 +42,13 @@ body {
       }
     }
   }
+
+  .el-input.no-border {
+    --el-input-bg-color: transparent;
+    --el-input-border-color: transparent;
+    --el-input-hover-border-color: transparent;
+    --el-input-focus-border-color: transparent;
+  }
 }
 
 

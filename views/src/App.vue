@@ -69,13 +69,13 @@ watch(
       :style="{ backgroundColor: setting.bgcolor }"
       class="sticky top-0 z-10 flex justify-between px-2 py-1 bg-white border-b border-current border-dashed header bg-opacity-10"
     >
-      <span class="flex items-center space-x-2">
+      <span class="flex items-center space-x-2 w-full">
         <font-awesome-icon
           class="cursor-move"
           @mousedown="App.move(true)"
           :icon="['fas', 'up-down-left-right']"
         />
-        <el-input v-model="setting.title" placeholder="标题" @change="(value: string)=>Config.title(value)"/>
+        <el-input class="no-border" v-model="setting.title" placeholder="标题" @change="(value: string)=>Config.title(value)"/>
       </span>
       <span class="flex items-center space-x-2">
         <el-color-picker size="small" v-model="setting.bgcolor" @change="colorPicker" />

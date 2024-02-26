@@ -101,15 +101,23 @@ function onSort({ moved }: any) {
       </li>
     </ul>
   </el-main>
-  <el-footer class="flex mx-2 items-center">
-    <el-button class="w-full" type="primary" @click="hide">
-      <font-awesome-icon :icon="['fas', 'eye-slash']" />&nbsp;隐藏显示
-    </el-button>
+  <el-footer class="flex mr-3 items-center justify-end space-x-3">
+    <span>
+      <el-tooltip content="隐藏显示" placement="top">
+        <el-button link size="small" class="w-full" type="primary" @click="hide">
+          <font-awesome-icon :icon="['fas', 'eye-slash']" />
+        </el-button>
+      </el-tooltip>
+    </span>
     <el-popconfirm title="删除后将无法找回，是否确认完全删除?" @confirm="clear">
       <template #reference>
-        <el-button class="w-full" type="danger">
-          <font-awesome-icon :icon="['fas', 'trash']" />&nbsp;完全删除
-        </el-button>
+        <span>
+          <el-tooltip content="完全删除" placement="top">
+            <el-button link size="small"  class="w-full" type="danger">
+              <font-awesome-icon :icon="['fas', 'trash']" />
+            </el-button>
+          </el-tooltip>
+        </span>
       </template>
     </el-popconfirm>
   </el-footer>

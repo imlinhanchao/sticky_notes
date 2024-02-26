@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-setup-props-destructure -->
 <script setup lang="ts" name="Note">
 import { ref, watch } from 'vue'
 import { marked } from 'marked'
