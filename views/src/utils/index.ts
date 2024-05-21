@@ -181,6 +181,14 @@ export class Note {
   }
 
   /**
+   * 添加便签项目到日程
+   * @param data 便签项
+   */
+  static makeTask (data: Note) {
+    send('task', data)
+  }
+
+  /**
    * 清空便签项
    */
   static clear () {

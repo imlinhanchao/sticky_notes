@@ -405,6 +405,16 @@ HRESULT CNoteDlg::OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebM
 		m_Note.SetNoteItem(item, m_Note.GetNoteGroup().vNotes.size(), true);
 		m_Note.GetNoteGroup().vNotes.insert(m_Note.GetNoteGroup().vNotes.begin(), item);
 	}
+	else if (sEvent == _T("task")) {
+		NoteItem item;
+		if (!data.HasMember("id")) return E_NOTIMPL;
+		item.uId = data["id"].GetUint64();
+		if (!data.HasMember("content")) return E_NOTIMPL;
+		item.sContent = A2W(data["content"].GetString());
+		if (!data.HasMember("finish")) return E_NOTIMPL;
+		item.bFinished = data["finish"].GetBool();
+		m_Note.MakeTask(item);
+	}
 	else if (sEvent == _T("update")) {
 		vector<NoteItem> vNotes = m_Note.GetNoteGroup().vNotes;
 		NoteItem item;

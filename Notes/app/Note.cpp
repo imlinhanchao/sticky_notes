@@ -124,6 +124,36 @@ void CNote::UpdateTitle(CString sTitle)
 	ini.Write(_T("Group"), _T("Title"), sTitle);
 }
 
+void CNote::MakeTask(NoteItem item)
+{
+	CStdioFile file;
+	CString sPath = Path::GetTmpDirectory(Cvt::ToString(CTime(GetCurrentTime()), _T("%Y%m%d%H%M%S")) + _T(".ics"));
+	if (!file.Open(sPath, CFile::modeCreate | CFile::modeWrite)) return;
+	CString icsTpl = _T("BEGIN:VCALENDAR\n\
+VERSION:2.0\n\
+PRODID:-//Hancel.Lin//StickyNotes//EN\n\
+BEGIN:VEVENT\n\
+UID:{UID}\n\
+DTSTAMP:{DTSTAMP}\n\
+DTSTART:{DTSTART}\n\
+DTEND :{DTEND}\n\
+SUMMARY:{SUMMARY}\n\
+LOCATION:\n\
+DESCRIPTION:{DESCRIPTION}\n\
+EN:VEVENT\n\
+END:VCALENDAR");
+	icsTpl.Replace(_T("{UID}"), Cvt::ToString(item.uId));
+	icsTpl.Replace(_T("{DTSTAMP}"), Cvt::ToString(CTime::GetCurrentTime(), _T("%Y%m%dT%H%M%SZ")));
+	icsTpl.Replace(_T("{DTSTART}"), Cvt::ToString(CTime::GetCurrentTime(), _T("%Y%m%dT%H%M%SZ")));
+	icsTpl.Replace(_T("{DTEND}"), Cvt::ToString(CTime::GetCurrentTime(), _T("%Y%m%dT%H%M%SZ")));
+	icsTpl.Replace(_T("{SUMMARY}"), item.sContent);
+	icsTpl.Replace(_T("{DESCRIPTION}"), item.sContent);
+	file.WriteString(icsTpl);
+	file.Close();
+
+	ShellExecute(NULL, _T("open"), sPath, NULL, NULL, SW_SHOWNORMAL);
+}
+
 void CNote::Hide()
 {
 	m_noteGroup.bVisible = true;

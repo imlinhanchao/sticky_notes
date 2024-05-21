@@ -22,6 +22,7 @@ public:
 	void UpdateTopMost(bool bTopMost);
 	void UpdateBgColor(COLORREF clrBg);
 	void UpdateTitle(CString sTitle);
+	void MakeTask(NoteItem item);
 	void Hide();
 	void Clear();
 

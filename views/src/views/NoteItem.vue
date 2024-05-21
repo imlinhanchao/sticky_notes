@@ -48,6 +48,10 @@ function cancel() {
   newContent.value = '';
 }
 
+function addTask() {
+  Note.makeTask(data.value);
+}
+
 </script>
 <template>
   <li 
@@ -74,6 +78,7 @@ function cancel() {
       >
       <div class="absolute w-full h-full border-2 rounded-bl rounded-br pointer-events-none toolbar" style="border-top-color: var(--background-color);"  :class="{ 'opacity-50': data.finish}"/>
       <div class="z-10 px-2 space-x-2">
+        <font-awesome-icon class="p-1 rounded-sm cursor-pointer hover:bg-white/25 drag-handle" v-if="!data.finish" :icon="['far', 'calendar']" @click.stop="addTask" />
         <font-awesome-icon class="p-1 rounded-sm cursor-pointer hover:bg-white/25 drag-handle" :class="{ 'opacity-50': data.finish}" :icon="['fas', 'up-down-left-right']"/>
         <font-awesome-icon class="p-1 rounded-sm cursor-pointer hover:bg-white/25" :class="{ 'opacity-50': data.finish}" :icon="['far', 'pen-to-square']" @click.stop="edit"/>
         <font-awesome-icon class="p-1 rounded-sm cursor-pointer hover:bg-white/25" :class="{ 'opacity-50': data.finish}" :icon="['far', 'trash-can']" @click.stop="emit('remove')"/>
