@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Note.h"
-#include <locale> 
+#include <fstream>
+#include <codecvt>
+#include <string>
 
 CNote::CNote()
 {
@@ -127,11 +129,7 @@ void CNote::UpdateTitle(CString sTitle)
 
 void CNote::MakeTask(NoteItem item)
 {
-	CStdioFile file;
 	CString sPath = Path::GetTmpDirectory(Cvt::ToString(CTime(GetCurrentTime()), _T("%Y%m%d%H%M%S")) + _T(".ics"));
-	if (!file.Open(sPath, CFile::modeCreate | CFile::modeWrite)) return;
-	char* old_locale = _strdup(setlocale(LC_ALL, NULL));
-	setlocale(LC_ALL, "chs");//设定
 	CString icsTpl = _T("BEGIN:VCALENDAR\n\
 VERSION:2.0\n\
 PRODID:-//Hancel.Lin//StickyNotes//EN\n\
@@ -151,12 +149,15 @@ END:VCALENDAR");
 	icsTpl.Replace(_T("{DTEND}"), Cvt::ToString(CTime::GetCurrentTime(), _T("%Y%m%dT%H%M%SZ")));
 	icsTpl.Replace(_T("{SUMMARY}"), item.sContent);
 	icsTpl.Replace(_T("{DESCRIPTION}"), item.sContent);
-	file.WriteString(icsTpl);
 
-	setlocale(LC_ALL, old_locale);//还原
-	free(old_locale);
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+	std::string utf8String = converter.to_bytes((LPCTSTR)icsTpl);
 
-	file.Close();
+	std::ofstream file(sPath);
+	if (file.is_open()) {
+		file << utf8String;
+		file.close();
+	}
 
 	ShellExecute(NULL, _T("open"), sPath, NULL, NULL, SW_SHOWNORMAL);
 }
