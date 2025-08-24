@@ -13,6 +13,21 @@ void CAppCtrl::Init()
 {
 	vector<CString> vNoteGroup;
 	CConfig::LoadNoteGroup(vNoteGroup);
+	if (!vNoteGroup.empty())
+	{
+		if (::MessageBox(NULL, _T("发现旧版便签数据，是否自动导入？\r\n若选择否，则会删除旧版便签数据！"), _T("Notes"), MB_ICONQUESTION | MB_YESNO) == IDYES) {
+			for (int i = 0; i < vNoteGroup.size(); i++) {
+				NoteGroup group;
+				CConfig::GetNoteGroup(vNoteGroup[i], group);
+				CNoteConfig::SetNoteGroup(group);
+			}
+		}
+		for (int i = 0; i < vNoteGroup.size(); i++)
+		{
+			::DeleteFile(CConfig::NotesDir() + vNoteGroup[i] + _T(".ini"));
+		}
+	}
+	CNoteConfig::LoadNoteGroup(vNoteGroup);
 
 	for (int i = 0; i < vNoteGroup.size(); i++)
 	{

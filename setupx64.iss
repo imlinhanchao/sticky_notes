@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Sticky Note"
-#define MyAppVersion "1.0.6"
+#define MyAppVersion "1.1.0"
 #define MyAppPublisher "Hancel.Lin"
 #define MyAppURL "https://github.com/imlinhanchao/sticky_notes"
 #define MyAppExeName "Notes.exe"
@@ -53,4 +53,4 @@ Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChang
 
 [UninstallDelete] 
 Type: files; Name: "{userstartup}\setting.ini"   
-Type: filesandordirs; Name: "{app}\Notes.exe.WebView2"  
+Type: filesandordirs; Name: "{app}\{#MyAppExeName}.WebView2"  

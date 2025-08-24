@@ -85,11 +85,14 @@ using namespace std;
 #include "ref/Utility.h"
 #include "ref/HotKey.h"
 #include "ref/RawInput.h"
+#include "ref/XFile.h"
+#include "ref/Json.h"
 using namespace Easy;
 
 #include "control/HotKeyEdit.h"
 
 #include "defintion.h"
 #include "app/Config.h"
+#include "app/NoteConfig.h"
 #include "app/Note.h"
 #include "app/AppCtrl.h"

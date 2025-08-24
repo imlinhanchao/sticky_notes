@@ -37,28 +37,28 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Static</UseOfMfc>
+    <UseOfMfc>Dynamic</UseOfMfc>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Static</UseOfMfc>
+    <UseOfMfc>Dynamic</UseOfMfc>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugHttp|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Static</UseOfMfc>
+    <UseOfMfc>Dynamic</UseOfMfc>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugHttp|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Static</UseOfMfc>
+    <UseOfMfc>Dynamic</UseOfMfc>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -66,7 +66,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Static</UseOfMfc>
+    <UseOfMfc>Dynamic</UseOfMfc>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -74,7 +74,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Static</UseOfMfc>
+    <UseOfMfc>Dynamic</UseOfMfc>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -272,6 +272,7 @@
     <ClInclude Include="app\AppCtrl.h" />
     <ClInclude Include="app\Config.h" />
     <ClInclude Include="app\Note.h" />
+    <ClInclude Include="app\NoteConfig.h" />
     <ClInclude Include="control\HotKeyEdit.h" />
     <ClInclude Include="defintion.h" />
     <ClInclude Include="NoteDlg.h" />
@@ -280,12 +281,14 @@
     <ClInclude Include="ref\Cvt.h" />
     <ClInclude Include="ref\HotKey.h" />
     <ClInclude Include="ref\Ini.h" />
+    <ClInclude Include="ref\Json.h" />
     <ClInclude Include="ref\Log.h" />
     <ClInclude Include="ref\Path.h" />
     <ClInclude Include="ref\RawInput.h" />
     <ClInclude Include="ref\Registry.h" />
     <ClInclude Include="ref\Shell.h" />
     <ClInclude Include="ref\Utility.h" />
+    <ClInclude Include="ref\XFile.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -294,6 +297,7 @@
     <ClCompile Include="app\AppCtrl.cpp" />
     <ClCompile Include="app\Config.cpp" />
     <ClCompile Include="app\Note.cpp" />
+    <ClCompile Include="app\NoteConfig.cpp" />
     <ClCompile Include="control\HotKeyEdit.cpp" />
     <ClCompile Include="NoteDlg.cpp" />
     <ClCompile Include="Notes.cpp" />
@@ -301,12 +305,14 @@
     <ClCompile Include="ref\Cvt.cpp" />
     <ClCompile Include="ref\HotKey.cpp" />
     <ClCompile Include="ref\Ini.cpp" />
+    <ClCompile Include="ref\Json.cpp" />
     <ClCompile Include="ref\Log.cpp" />
     <ClCompile Include="ref\Path.cpp" />
     <ClCompile Include="ref\RawInput.cpp" />
     <ClCompile Include="ref\Registry.cpp" />
     <ClCompile Include="ref\Shell.cpp" />
     <ClCompile Include="ref\Utility.cpp" />
+    <ClCompile Include="ref\XFile.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

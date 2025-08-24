@@ -97,6 +97,15 @@
     <ClInclude Include="app\Note.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="ref\Json.h">
+      <Filter>ref</Filter>
+    </ClInclude>
+    <ClInclude Include="ref\XFile.h">
+      <Filter>ref</Filter>
+    </ClInclude>
+    <ClInclude Include="app\NoteConfig.h">
+      <Filter>app</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Notes.cpp">
@@ -149,6 +158,15 @@
     </ClCompile>
     <ClCompile Include="app\Note.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="ref\Json.cpp">
+      <Filter>ref</Filter>
+    </ClCompile>
+    <ClCompile Include="ref\XFile.cpp">
+      <Filter>ref</Filter>
+    </ClCompile>
+    <ClCompile Include="app\NoteConfig.cpp">
+      <Filter>app</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
