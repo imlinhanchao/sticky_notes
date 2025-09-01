@@ -213,48 +213,26 @@ bool CNoteDlg::IsMouseThrough() {
 
 void CNoteDlg::SendNoteItems()
 {
-	USES_CONVERSION;
-	Document data;
-	data.SetArray();
-	for (int i = 0; i < m_Note.GetNoteGroup().vNotes.size(); i++) {
-		Value item(kObjectType);
-		rapidjson::Value id, content, finish;
-		id.SetUint64(m_Note.GetNoteGroup().vNotes[i].uId);
-		content.SetString(W2A(m_Note.GetNoteGroup().vNotes[i].sContent.GetBuffer()), data.GetAllocator());
-		finish.SetBool(m_Note.GetNoteGroup().vNotes[i].bFinished);
-		m_Note.GetNoteGroup().vNotes[i].sContent.ReleaseBuffer();
-		item.AddMember("id", id, data.GetAllocator());
-		item.AddMember("content", content, data.GetAllocator());
-		item.AddMember("finish", finish, data.GetAllocator());
-		data.PushBack(item, data.GetAllocator());
-	}
-	SendMessageToWeb(_T("data"), data);
+	NoteGroup group = m_Note.GetNoteGroup();
+	Document::AllocatorType allocator;
+	rapidjson::GenericValue<UTF8<TCHAR>> vData;
+	SendMessageToWeb(_T("data"), group.toNotesJson(vData, allocator), allocator);
 }
 
 void CNoteDlg::SendNoteSetting()
 {
-	USES_CONVERSION;
-	Document data;
-	data.SetObject();
-	Value bgColor, opacity, topmost, opacityable, title;
-	title.SetString(W2A(m_Note.GetNoteGroup().sTitle), data.GetAllocator());
-	bgColor.SetString(T2A(m_Note.GetNoteGroup().toHex()), data.GetAllocator());
-	opacity.SetInt(m_Note.GetNoteGroup().nOpacity);
-	topmost.SetBool(m_Note.GetNoteGroup().bTopMost);
-	opacityable.SetBool(m_Note.GetNoteGroup().bOpacity);
-	data.AddMember("title", title, data.GetAllocator());
-	data.AddMember("bgcolor", bgColor, data.GetAllocator());
-	data.AddMember("opacity", opacity, data.GetAllocator());
-	data.AddMember("opacityable", opacityable, data.GetAllocator());
-	data.AddMember("topmost", topmost, data.GetAllocator());
-	SendMessageToWeb(_T("setting"), data);
+	NoteGroup group = m_Note.GetNoteGroup();
+	Document::AllocatorType allocator;
+	rapidjson::GenericValue<UTF8<TCHAR>> vData;
+	SendMessageToWeb(_T("setting"), group.toSettingJson(vData, allocator), allocator);
 }
 
 void CNoteDlg::SendMouseThrough()
 {
-	Document data;
+	rapidjson::GenericValue<UTF8<TCHAR>> data;
+	Document::AllocatorType allocator;
 	data.SetBool(IsMouseThrough());
-	SendMessageToWeb(_T("lock"), data);
+	SendMessageToWeb(_T("lock"), data, allocator);
 }
 
 
@@ -345,19 +323,19 @@ HRESULT CNoteDlg::OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebM
 	wil::unique_cotaskmem_string message;
 	args->TryGetWebMessageAsString(&message);
 
-	USES_CONVERSION;
-	Document d;
-	d.Parse(W2A(message.get()));
+	GenericDocument<UTF16<TCHAR>> d;
+	d.Parse(message.get());
+
 	/**
 	* data format
 	* { event: string, data: any }
 	*/
-	if (!d.HasMember("event")) return E_NOTIMPL;
-	if (!d.HasMember("data")) return E_NOTIMPL;
-	const rapidjson::Value& data = d["data"];
+	if (!d.HasMember(_T("event"))) return E_NOTIMPL;
+	if (!d.HasMember(_T("data"))) return E_NOTIMPL;
 
+	const rapidjson::GenericValue<UTF16<TCHAR>>& data = d[_T("data")];
 
-	CString sEvent = A2W(d["event"].GetString());
+	CString sEvent = CString(d[_T("event")].GetString());
 	if (sEvent == _T("move")) {
 		GetClientRect(&m_BeginMoveRect);
 		ClientToScreen(&m_BeginMoveRect);
@@ -384,11 +362,11 @@ HRESULT CNoteDlg::OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebM
 		else SetWindownAlpha(100);
 	}
 	else if (sEvent == _T("bgcolor")) {
-		CString sHex = data.IsNull() ? _T("#0b0f14") : A2W(data.GetString());
+		CString sHex = data.IsNull() ? _T("#0b0f14") : data.GetString();
 		m_Note.UpdateBgColor(Cvt::ToColor(sHex));
 	}
 	else if (sEvent == _T("title")) {
-		CString sTitle = data.IsNull() ? _T("") : A2W(data.GetString());
+		CString sTitle = data.IsNull() ? _T("") : data.GetString();
 		m_Note.UpdateTitle(sTitle);
 	}
 	else if (sEvent == _T("close")) {
@@ -396,33 +374,33 @@ HRESULT CNoteDlg::OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebM
 	}
 	else if (sEvent == _T("add")) {
 		NoteItem item;
-		if (!data.HasMember("id")) return E_NOTIMPL;
-		item.uId = data["id"].GetUint64();
-		if (!data.HasMember("content")) return E_NOTIMPL;
-		item.sContent = A2W(data["content"].GetString());
-		if (!data.HasMember("finish")) return E_NOTIMPL;
-		item.bFinished = data["finish"].GetBool();
+		if (!data.HasMember(_T("id"))) return E_NOTIMPL;
+		item.uId = data[_T("id")].GetUint64();
+		if (!data.HasMember(_T("content"))) return E_NOTIMPL;
+		item.sContent = CString(data[_T("content")].GetString());
+		if (!data.HasMember(_T("finish"))) return E_NOTIMPL;
+		item.bFinished = data[_T("finish")].GetBool();
 		m_Note.SetNoteItem(item, m_Note.GetNoteGroup().vNotes.size(), true);
 		m_Note.GetNoteGroup().vNotes.insert(m_Note.GetNoteGroup().vNotes.begin(), item);
 	}
 	else if (sEvent == _T("task")) {
 		NoteItem item;
-		if (!data.HasMember("id")) return E_NOTIMPL;
-		item.uId = data["id"].GetUint64();
-		if (!data.HasMember("content")) return E_NOTIMPL;
-		item.sContent = A2W(data["content"].GetString());
-		if (!data.HasMember("finish")) return E_NOTIMPL;
-		item.bFinished = data["finish"].GetBool();
+		if (!data.HasMember(_T("id"))) return E_NOTIMPL;
+		item.uId = data[_T("id")].GetUint64();
+		if (!data.HasMember(_T("content"))) return E_NOTIMPL;
+		item.sContent = data[_T("content")].GetString();
+		if (!data.HasMember(_T("finish"))) return E_NOTIMPL;
+		item.bFinished = data[_T("finish")].GetBool();
 		m_Note.MakeTask(item);
 	}
 	else if (sEvent == _T("update")) {
 		vector<NoteItem> vNotes = m_Note.GetNoteGroup().vNotes;
 		NoteItem item;
-		item.uId = data["id"].GetUint64();
-		if (!data.HasMember("content")) return E_NOTIMPL;
-		item.sContent = A2W(data["content"].GetString());
-		if (!data.HasMember("finish")) return E_NOTIMPL;
-		item.bFinished = data["finish"].GetBool();
+		item.uId = data[_T("id")].GetUint64();
+		if (!data.HasMember(_T("content"))) return E_NOTIMPL;
+		item.sContent = data[_T("content")].GetString();
+		if (!data.HasMember(_T("finish"))) return E_NOTIMPL;
+		item.bFinished = data[_T("finish")].GetBool();
 		
 		for (int i = 0; i < vNotes.size(); i++) {
 			if (vNotes[i].uId == item.uId) {
@@ -437,9 +415,9 @@ HRESULT CNoteDlg::OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebM
 		vector<NoteItem> vNotes;
 		for (int i = 0; i < data.Size(); i++) {
 			NoteItem item;
-			item.uId = data[i]["id"].GetUint64();
-			item.sContent = A2W(data[i]["content"].GetString());
-			item.bFinished = data[i]["finish"].GetBool();
+			item.uId = data[i][_T("id")].GetUint64();
+			item.sContent = data[i][_T("content")].GetString();
+			item.bFinished = data[i][_T("finish")].GetBool();
 			vNotes.push_back(item);
 		}
 		m_Note.SetNoteItems(vNotes);
@@ -447,7 +425,7 @@ HRESULT CNoteDlg::OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebM
 	else if (sEvent == _T("remove")) {
 		vector<NoteItem> vNotes = m_Note.GetNoteGroup().vNotes;
 		NoteItem item;
-		item.uId = data["id"].GetUint64();
+		item.uId = data[_T("id")].GetUint64();
 		for (int i = 0; i < vNotes.size(); i++) {
 			if (vNotes[i].uId == item.uId) {
 				m_Note.GetNoteGroup().vNotes.erase(m_Note.GetNoteGroup().vNotes.begin() + i);
@@ -479,22 +457,22 @@ HRESULT CNoteDlg::OnDocumentReady(ICoreWebView2* webview, ICoreWebView2Navigatio
 	return E_NOTIMPL;
 }
 
-void CNoteDlg::SendMessageToWeb(CString sEvent, rapidjson::Value& data)
+void CNoteDlg::SendMessageToWeb(CString sEvent, rapidjson::GenericValue<UTF8<TCHAR>>& data, Document::AllocatorType& allocator)
 {
-	USES_CONVERSION;
-	Document d;
-	d.SetObject();
-	rapidjson::Value name;
-	name.SetString(W2A(sEvent.GetBuffer()), d.GetAllocator());
-
-	d.AddMember("event", name, d.GetAllocator());
-	d.AddMember("data", data, d.GetAllocator());
+	rapidjson::GenericValue<UTF8<TCHAR>> json;
+	json.SetObject();
+	json.AddMember(
+		rapidjson::GenericValue<UTF8<TCHAR>>(_T("event"), allocator).Move(),
+		rapidjson::GenericValue<UTF8<TCHAR>>(sEvent.GetBuffer(), allocator).Move(),
+		allocator
+	);
 	sEvent.ReleaseBuffer();
-
-	StringBuffer buffer;
-	Writer<StringBuffer> writer(buffer);
-	d.Accept(writer);
-	CString dataJson = A2W(buffer.GetString());
+	json.AddMember(
+		rapidjson::GenericValue<UTF8<TCHAR>>(_T("data"), allocator).Move(),
+		data,
+		allocator
+	);
+	CString dataJson = CNoteConfig::GetJsonString(json);
 
 	m_webView->PostWebMessageAsJson(dataJson);
 }
@@ -516,4 +494,3 @@ void CNoteDlg::OnMouseMoving(CPoint pt)
 	CPoint newPosition = pt - ptOffset;
 	SetWindowPos(NULL, newPosition.x, newPosition.y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 }
-

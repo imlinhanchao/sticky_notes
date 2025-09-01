@@ -16,6 +16,8 @@ public:
 
 	static CString NotesDir();
 
+	static CString GetJsonString(rapidjson::GenericValue<UTF8<TCHAR>>& data);
+
 private:
 	static Setting m_setting;
 };

@@ -8,7 +8,29 @@ typedef struct _NoteItem
 
 	_NoteItem()
 	{
+		uId = 0;
 		bFinished = false;
+	}
+
+	rapidjson::GenericValue<UTF8<TCHAR>>& toJson(rapidjson::GenericValue<UTF8<TCHAR>>& vItem, Document::AllocatorType& allocator) {
+		vItem.SetObject();
+		vItem.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("id"), allocator).Move(),
+			(uint64_t)uId,
+			allocator
+		);
+		vItem.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("content"), allocator).Move(),
+			rapidjson::GenericValue<UTF8<TCHAR>>(sContent.GetBuffer(), allocator).Move(),
+			allocator
+		);
+		sContent.ReleaseBuffer();
+		vItem.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("finish"), allocator).Move(),
+			bFinished,
+			allocator
+		);
+		return vItem;
 	}
 
 }NoteItem, *PNoteItem;
@@ -38,6 +60,91 @@ typedef struct NoteGroup
 
 	CString toHex() {
 		return Cvt::ToHex(bgColor);
+	}
+
+	rapidjson::GenericValue<UTF8<TCHAR>>& toSettingJson(rapidjson::GenericValue<UTF8<TCHAR>>& vData, Document::AllocatorType& allocator) {
+		vData.SetObject();
+		vData.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("name"), allocator).Move(),
+			rapidjson::GenericValue<UTF8<TCHAR>>(sName.GetBuffer(), allocator).Move(),
+			allocator
+		);
+		sName.ReleaseBuffer();
+		vData.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("title"), allocator).Move(),
+			rapidjson::GenericValue<UTF8<TCHAR>>(sTitle.GetBuffer(), allocator).Move(),
+			allocator
+		);
+		sTitle.ReleaseBuffer();
+		vData.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("left"), allocator).Move(),
+			rect.left,
+			allocator
+		);
+		vData.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("top"), allocator).Move(),
+			rect.top,
+			allocator
+		);
+		vData.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("right"), allocator).Move(),
+			rect.right,
+			allocator
+		);
+		vData.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("bottom"), allocator).Move(),
+			rect.bottom,
+			allocator
+		);
+		CString sColor = toHex();
+		vData.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("bgcolor"), allocator).Move(),
+			rapidjson::GenericValue<UTF8<TCHAR>>(sColor.GetBuffer(), allocator).Move(),
+			allocator
+		);
+		sColor.ReleaseBuffer();
+		vData.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("opacity"), allocator).Move(),
+			nOpacity,
+			allocator
+		);
+		vData.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("opacityable"), allocator).Move(),
+			bOpacity,
+			allocator
+		);
+		vData.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("visible"), allocator).Move(),
+			bVisible,
+			allocator
+		);
+		vData.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("topmost"), allocator).Move(),
+			bTopMost,
+			allocator
+		);
+		return vData;
+	}
+
+	rapidjson::GenericValue<UTF8<TCHAR>>& toNotesJson(rapidjson::GenericValue<UTF8<TCHAR>>& vData, Document::AllocatorType& allocator) {
+		vData.SetArray();
+		for (int i = 0; i < vNotes.size(); i++) {
+			rapidjson::GenericValue<UTF8<TCHAR>> vItem;
+			vData.PushBack(vNotes.at(i).toJson(vItem, allocator), allocator);
+		}
+		return vData;
+	}
+
+	rapidjson::GenericValue<UTF8<TCHAR>>& toJson(rapidjson::GenericValue<UTF8<TCHAR>>& vData, Document::AllocatorType& allocator) {
+		vData.SetObject();
+		toSettingJson(vData, allocator);
+		rapidjson::GenericValue<UTF8<TCHAR>> vNotes;
+		vData.AddMember(
+			rapidjson::GenericValue<UTF8<TCHAR>>(_T("notes"), allocator).Move(),
+			toNotesJson(vNotes, allocator),
+			allocator
+		);
+		return vData;
 	}
 };
 

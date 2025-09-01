@@ -39,7 +39,7 @@ protected:
 	HRESULT OnWebMessageReceived(ICoreWebView2* webview, ICoreWebView2WebMessageReceivedEventArgs* args);
 	HRESULT OnDocumentReady(ICoreWebView2* webview, ICoreWebView2NavigationCompletedEventArgs* args);
 
-	void SendMessageToWeb(CString sEvent, rapidjson::Value& data);
+	void SendMessageToWeb(CString sEvent, rapidjson::GenericValue<UTF8<TCHAR>>& data, Document::AllocatorType& allocator);
 	void ExecuteScript(CString sJavascript, ICoreWebView2ExecuteScriptCompletedHandler* handler);
 	const TCHAR* GetDocumentReadyJavascript();
 	void OnMouseMoving(CPoint pt);

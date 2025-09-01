@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "NoteConfig.h"
+#include <string>
+#include <locale>
+#include <codecvt>
 
 Setting CNoteConfig::m_setting;
 
@@ -33,39 +36,41 @@ bool CNoteConfig::GetNoteGroup(CString sName, NoteGroup& group)
 		return false;
 	}
 
-	JsonValue vData;
+	GenericDocument<UTF16<TCHAR>> vData;
+
 	CString sJson;
 	if (!XFile::ReadFile(sConfigFile, sJson)) {
 		CLogApp::Write(_T("Read Confg File Failed: ") + sConfigFile + _T(", ErrorCode: %d"), GetLastError());
 		return false;
 	}
 
-	if (!JSON::Parse(sJson, vData)) {
-		CLogApp::Write(_T("Parse Confg File Failed: ") + sConfigFile + _T(", ErrorMessage: %s"), JSON::s_sLastError);
+	vData.Parse(sJson.GetBuffer()); sJson.ReleaseBuffer();
+	if (vData.HasParseError()) {
+		CLogApp::Write(_T("Parse Confg File Failed: ") + sConfigFile + _T(", ErrorCode: %d"), vData.GetParseError());
 		return false;
 	}
 
-	group.sName = vData[_T("Name")].ToString();
-	group.sTitle = vData[_T("Title")].ToString();
-	group.rect = CRect(vData[_T("Left")].ToIntegral(), vData[_T("Top")].ToIntegral(), vData[_T("Right")].ToIntegral(), vData[_T("Bottom")].ToIntegral());
-	group.bgColor = (COLORREF)vData[_T("BgColor")].ToIntegral();
-	group.nOpacity = vData[_T("Opacity")].ToIntegral();
-	group.bOpacity = vData[_T("OpacityAble")].ToBool();
-	group.bVisible = vData[_T("Visible")].ToBool();
-	group.bTopMost = vData[_T("TopMost")].ToBool();
-	JsonValue vNotes = vData[_T("Notes")];
+	group.sName = vData[_T("name")].GetString();
+	group.sTitle = vData[_T("title")].GetString();
+	group.rect = CRect(vData[_T("left")].GetInt(), vData[_T("top")].GetInt(), vData[_T("right")].GetInt(), vData[_T("bottom")].GetInt());
+	group.bgColor = Cvt::ToColor(vData[_T("bgcolor")].GetString());
+	group.nOpacity = vData[_T("opacity")].GetInt();
+	group.bOpacity = vData[_T("opacityable")].GetBool();
+	group.bVisible = vData[_T("visible")].GetBool();
+	group.bTopMost = vData[_T("topmost")].GetBool();
+	const rapidjson::GenericValue<UTF16<TCHAR>>& vNotes = vData[_T("notes")];
 
 	if (!vNotes.IsArray()) {
 		CLogApp::Write(_T("Notes is not array: ") + sConfigFile);
 		return false;
 	}
 
-	for (int i = 0; i < vNotes.size(); i++)
+	for (int i = 0; i < vNotes.Size(); i++)
 	{
 		NoteItem item;
-		item.uId = vNotes[i][_T("Id")].ToIntegral();
-		item.sContent = vNotes[i][_T("Content")].ToString();
-		item.bFinished = vNotes[i][_T("Finished")].ToBool();
+		item.uId = vNotes[i][_T("id")].GetUint64();
+		item.sContent = vNotes[i][_T("content")].GetString();
+		item.bFinished = vNotes[i][_T("finish")].GetBool();
 		group.vNotes.push_back(item);
 	}
 
@@ -77,31 +82,9 @@ void CNoteConfig::SetNoteGroup( NoteGroup group)
 	CString sConfigFile = Path::Resolve(NotesDir(), group.sName + _T(".json"));
 
 	CLogApp::Write(_T("SetNoteGroup: ") + sConfigFile);
-
-	JsonValue vData;
-	vData.Append(_T("Name"), group.sName);
-	vData.Append(_T("Title"), group.sTitle);
-	vData.Append(_T("Left"), group.rect.left);
-	vData.Append(_T("Top"), group.rect.top);
-	vData.Append(_T("Right"), group.rect.right);
-	vData.Append(_T("Bottom"), group.rect.bottom);
-	vData.Append(_T("BgColor"), (int)group.bgColor);
-	vData.Append(_T("Opacity"), group.nOpacity);
-	vData.Append(_T("OpacityAble"), group.bOpacity);
-	vData.Append(_T("Visible"), group.bVisible);
-	vData.Append(_T("TopMost"), group.bTopMost);
-
-	JsonValue vNotes;
-	for (int i = 0; i < group.vNotes.size(); i++) {
-		NoteItem item = group.vNotes.at(i);
-		JsonValue vItem;
-		vItem.Append(_T("Id"), (long)item.uId);
-		vItem.Append(_T("Content"), item.sContent);
-		vItem.Append(_T("Finished"), item.bFinished);
-		vNotes.Append(_T(""), vItem);
-	}
-	vData.Append(_T("Notes"), vNotes);
-	CString sJson = vData.ToStyledString();
+	Document::AllocatorType allocator;
+	rapidjson::GenericValue<UTF8<TCHAR>> vData;
+	CString sJson = GetJsonString(group.toJson(vData, allocator));
 	if (!XFile::WriteFile(sConfigFile, sJson)) {
 		CLogApp::Write(_T("Write Confg File Failed: ") + sConfigFile + _T(", ErrorCode: %d"), GetLastError());
 		return;
@@ -177,4 +160,54 @@ void CNoteConfig::SearchThemes(vector<CString>& lstName)
 		CString sNote = Path::GetFileName(lstConfig[i]);
 		lstName.push_back(sNote);
 	}
+}
+
+CString CNoteConfig::GetJsonString(rapidjson::GenericValue<UTF8<TCHAR>>& data)
+{
+	CString sJson = _T("");
+	if (data.IsObject()) {
+		sJson += _T("{");
+		for (auto m = data.MemberBegin(); m != data.MemberEnd(); m++)
+		{
+			sJson += _T("\"") + CString(m->name.GetString()) + _T("\":");
+			sJson += GetJsonString(m->value);
+			if (m + 1 != data.MemberEnd()) sJson += _T(",");
+		}
+		sJson += _T("}");
+		return sJson;
+	}
+	if (data.IsArray()) {
+		sJson += _T("[");
+		for (auto m = data.Begin(); m != data.End(); m++) {
+			sJson += GetJsonString(*m);
+			if (m + 1 != data.End()) sJson += _T(",");
+		}
+		sJson += _T("]");
+		return sJson;
+	}
+	if (data.IsBool()) {
+		return CString(data.GetBool() ? _T("true") : _T("false"));
+	}
+	if (data.IsUint()) {
+		return Cvt::ToString((UINT)data.GetUint());
+	}
+	if (data.IsUint64()) {
+		return Cvt::ToString((ULONG)data.GetUint64());
+	}
+	if (data.IsInt()) {
+		return Cvt::ToString(data.GetInt());
+	}
+	if (data.IsInt64()) {
+		return Cvt::ToString((long)data.GetInt64());
+	}
+	if (data.IsNull()) {
+		return CString(_T("null"));
+	}
+	if (data.IsDouble()) {
+		return Cvt::ToString(data.GetDouble());
+	}
+	if (data.IsString()) {
+		return _T("\"") + CString(data.GetString()) + _T("\"");
+	}
+	return CString(_T("\"Unknow Type\""));
 }
