@@ -1,0 +1,79 @@
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--el-text-color-primary);
+  background-color: transparent;
+}
+
+#app {
+  height: 100vh;
+  .el-textarea {
+    --el-input-bg-color: transparent;
+    font-size: 16px;
+    --el-input-border-color: transparent;
+    --el-input-hover-border-color: transparent;
+    --el-input-focus-border-color: transparent;
+  }
+
+  .el-button {
+    --el-button-text-color: var(--el-text-color-primary);
+    font-size: inherit;
+  }
+
+  .el-checkbox__inner {
+    border-color: var(--el-text-color-primary);
+    background-color: transparent;
+    border-width: 2px;
+  }
+  .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: var(--el-text-color-primary);
+    border-color: var(--el-text-color-primary);;
+    &::after {
+      border-color: var(--background-color);
+    }
+  }
+
+  .el-color-picker__trigger {
+    border: none;
+    .el-color-picker__color {
+      border-color: var(--el-text-color-primary);
+      .el-color-picker__icon {
+        color: var(--el-text-color-primary);
+      }
+    }
+  }
+
+  .el-input.no-border {
+    --el-input-bg-color: transparent;
+    --el-input-border-color: transparent;
+    --el-input-hover-border-color: transparent;
+    --el-input-focus-border-color: transparent;
+  }
+}
+
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFF;
+}
+
+.drag-ghost {
+  opacity: 0.5;
+}
+
+.hidden-unlock {
+  display: none;
+}
+
+.mouse-lock {
+  .hidden-lock {
+    display: none;
+  }
+  .hidden-unlock {
+    display: block;
+  }
+}
