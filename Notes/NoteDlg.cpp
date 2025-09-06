@@ -274,6 +274,15 @@ HRESULT CNoteDlg::OnCreateCoreWebView2ControllerCompleted(HRESULT result, ICoreW
 		m_controller->get_CoreWebView2(&m_webView);
 	}
 
+	Microsoft::WRL::ComPtr<ICoreWebView2Controller2> controller2;
+	m_controller.As(&controller2);
+
+	if (controller2) {
+		// 设置背景色为透明
+		COREWEBVIEW2_COLOR bgColor = { 0, 0, 0, 0 };
+		controller2->put_DefaultBackgroundColor(bgColor); // BGRA格式，A=0表示全透明
+	}
+
 	wil::com_ptr<ICoreWebView2Settings> settings;
 	m_webView->get_Settings(&settings);
 	settings->put_IsScriptEnabled(TRUE);
@@ -289,9 +298,9 @@ HRESULT CNoteDlg::OnCreateCoreWebView2ControllerCompleted(HRESULT result, ICoreW
 	m_controller->put_Bounds(bounds);
 
 #ifdef _DEBUG_HTTP
-	CString sUrl = _T("http://127.0.0.1:5173");
+	CString sUrl = _T("http://localhost:5173");
 #else
-	CString sTheme = Path::GetCurDirectory(_T("themes/") + CConfig::GetCurrentSetting().sTheme + _T("index.html"));
+	CString sTheme = Path::GetCurDirectory(_T("themes\\") + CConfig::GetCurrentSetting().sTheme + _T("\\index.html"));
 	if (!Path::Exists(sTheme)) sTheme = Path::GetCurDirectory(_T("themes/Default/index.html"));
 	CString sUrl = CString(_T("file:///")) + sTheme;
 #endif // _DEBUG_HTTP

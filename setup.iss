@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Sticky Note"
-#define MyAppVersion "1.1.1"
+#define MyAppVersion "1.1.2"
 #define MyAppPublisher "Hancel.Lin"
 #define MyAppURL "https://github.com/imlinhanchao/sticky_notes"
 #define MyAppExeName "Notes.exe"
@@ -40,8 +40,9 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "Release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "Release\WebView2Loader.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "views\dist\*"; DestDir: "{app}\themes\Default"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "Release\WebView2Loader.dll"; DestDir: "{app}"; Flags: ignoreversion  
+Source: "themes\default\dist\*"; DestDir: "{app}\themes\Default"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "themes\simple\dist\*"; DestDir: "{app}\themes\Simple"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
