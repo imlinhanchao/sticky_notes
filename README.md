@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="100" src="./views/public/logo.png">
+  <img width="100" src="./theme s/default/public/logo.png">
 </p>
 
 <h1 align="center">Sticky Notes | 贴纸便签</h1>
